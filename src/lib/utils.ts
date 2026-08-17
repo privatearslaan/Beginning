@@ -11,12 +11,11 @@ export function formatPrice(price: number | string) {
     return "₹0";
   }
 
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    currencyDisplay: "symbol",
+  const formatted = new Intl.NumberFormat("en-IN", {
     maximumFractionDigits: 0,
   }).format(value);
+
+  return `₹${formatted}`;
 }
 
 export function slugify(text: string) {

@@ -6,6 +6,7 @@ import { formatPrice, categoryLabel, petTypeLabel } from "@/lib/utils";
 import { asStringArray } from "@/lib/product-images";
 import { Badge } from "@/components/ui/badge";
 import { AddToCartButton } from "@/components/shop/AddToCartButton";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -40,6 +41,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
             className="object-cover"
             priority
           />
+          <div className="absolute right-4 top-4">
+            <WishlistButton
+              productId={product.id}
+              productName={product.name}
+              variant="outline"
+              className="bg-white/95"
+            />
+          </div>
         </div>
         <div>
           <div className="mb-4 flex flex-wrap gap-2">

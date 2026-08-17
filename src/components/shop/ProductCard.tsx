@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice, categoryLabel, petTypeLabel } from "@/lib/utils";
 import { asStringArray } from "@/lib/product-images";
 import { AddToCartButton } from "@/components/shop/AddToCartButton";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 
 interface ProductCardProps {
   product: {
@@ -17,15 +18,16 @@ interface ProductCardProps {
     images: unknown;
     stock: number;
   };
+  showWishlist?: boolean;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, showWishlist = true }: ProductCardProps) {
   const image = asStringArray(product.images)[0] ?? "/placeholder-product.svg";
 
   return (
     <Card className="overflow-hidden transition-shadow hover:shadow-md">
-      <Link href={`/shop/${product.slug}`}>
-        <div className="relative aspect-square bg-emerald-50">
+      <div className="relative aspect-square bg-emerald-50">
+        <Link href={`/shop/${product.slug}`} className="block h-full w-full">
           <Image
             src={image}
             alt={product.name}
@@ -33,8 +35,17 @@ export function ProductCard({ product }: ProductCardProps) {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 25vw"
           />
-        </div>
-      </Link>
+        </Link>
+        {showWishlist && (
+          <div className="absolute right-2 top-2 z-10">
+            <WishlistButton
+              productId={product.id}
+              productName={product.name}
+              className="rounded-full bg-white/90 shadow-sm hover:bg-white"
+            />
+          </div>
+        )}
+      </div>
       <CardContent className="p-4">
         <div className="mb-2 flex flex-wrap gap-1">
           <Badge variant="secondary">{categoryLabel(product.category)}</Badge>

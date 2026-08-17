@@ -3,19 +3,37 @@ import { ArrowRight, Heart, Scissors, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductSearchBar } from "@/components/shop/ProductSearchBar";
+import { FeaturedProductsCarousel } from "@/components/shop/FeaturedProductsCarousel";
+import { ShopByPet } from "@/components/shop/ShopByPet";
 import { ServiceCard } from "@/components/booking/ServiceCard";
 import { db } from "@/lib/db";
 
 export default async function HomePage() {
-  const [featuredProducts, services] = await Promise.all([
+  const [topProducts, featuredProducts, services] = await Promise.all([
+    db.product.findMany({
+      where: { featured: true },
+      orderBy: { updatedAt: "desc" },
+      take: 5,
+    }),
     db.product.findMany({ where: { featured: true }, take: 4 }),
     db.service.findMany({ where: { active: true }, take: 3 }),
   ]);
 
+  const carouselProducts = topProducts.map((product) => ({
+    id: product.id,
+    name: product.name,
+    slug: product.slug,
+    price: product.price.toString(),
+    petType: product.petType,
+    images: product.images,
+  }));
+
   return (
     <>
+      <FeaturedProductsCarousel products={carouselProducts} />
+
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:px-8 lg:py-28">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:px-8 lg:py-20">
           <div className="flex-1 text-center lg:text-left">
             <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
               Everything your pet needs, all in one place
@@ -26,7 +44,7 @@ export default async function HomePage() {
             </p>
             <ProductSearchBar
               variant="hero"
-              className="mb-8 w-full max-w-xl mx-auto lg:mx-0"
+              className="mb-8 mx-auto w-full max-w-xl lg:mx-0"
             />
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link href="/shop" className="w-full sm:w-auto">
@@ -60,6 +78,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <ShopByPet />
 
       {featuredProducts.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">

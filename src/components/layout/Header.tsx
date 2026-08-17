@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, ShoppingCart, PawPrint, X } from "lucide-react";
+import { Menu, ShoppingCart, PawPrint, X, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useWishlist } from "@/hooks/useWishlist";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -22,6 +23,7 @@ interface HeaderProps {
 export function Header({ cartCount, user }: HeaderProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { count: wishlistCount } = useWishlist();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -63,6 +65,17 @@ export function Header({ cartCount, user }: HeaderProps) {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+          <Link href="/wishlist" className="relative">
+            <Button variant="ghost" size="icon" aria-label="Wishlist">
+              <Heart className="h-5 w-5" />
+              {wishlistCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </span>
+              )}
+            </Button>
+          </Link>
+
           <Link href="/cart" className="relative">
             <Button variant="ghost" size="icon" aria-label="Cart">
               <ShoppingCart className="h-5 w-5" />
@@ -135,6 +148,13 @@ export function Header({ cartCount, user }: HeaderProps) {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/wishlist"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-3 py-3.5 text-base font-medium text-stone-700 active:bg-emerald-50"
+              >
+                Wishlist {wishlistCount > 0 ? `(${wishlistCount})` : ""}
+              </Link>
               <div className="my-2 border-t border-emerald-100" />
               {user ? (
                 <>
