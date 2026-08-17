@@ -14,30 +14,30 @@ export default async function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-20 sm:px-6 lg:flex-row lg:px-8 lg:py-28">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:px-8 lg:py-28">
           <div className="flex-1 text-center lg:text-left">
-            <h1 className="mb-4 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
               Everything your pet needs, all in one place
             </h1>
-            <p className="mb-8 max-w-xl text-lg text-emerald-100">
+            <p className="mb-8 text-base text-emerald-100 sm:text-lg">
               Premium food, toys, and accessories plus grooming and care
               services — because your furry friends deserve the best.
             </p>
-            <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
-              <Link href="/shop">
-                <Button size="lg" className="bg-orange-500 hover:bg-orange-600">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <Link href="/shop" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
                   Shop Now
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/services">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Link href="/services" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full border-white text-white hover:bg-white/10 sm:w-auto">
                   Book a Service
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="grid flex-1 grid-cols-2 gap-4">
+          <div className="grid w-full max-w-md grid-cols-2 gap-3 sm:gap-4 lg:max-w-none lg:flex-1">
             {[
               { icon: ShoppingBag, label: "500+ Products" },
               { icon: Scissors, label: "Expert Grooming" },
@@ -46,10 +46,10 @@ export default async function HomePage() {
             ].map(({ icon: Icon, label }) => (
               <div
                 key={label}
-                className="rounded-xl bg-white/10 p-6 backdrop-blur"
+                className="rounded-xl bg-white/10 p-4 backdrop-blur sm:p-6"
               >
-                <Icon className="mb-2 h-8 w-8 text-orange-300" />
-                <p className="font-semibold">{label}</p>
+                <Icon className="mb-2 h-7 w-7 text-orange-300 sm:h-8 sm:w-8" />
+                <p className="text-sm font-semibold sm:text-base">{label}</p>
               </div>
             ))}
           </div>
@@ -57,10 +57,10 @@ export default async function HomePage() {
       </section>
 
       {featuredProducts.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-8 flex items-end justify-between">
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-stone-900">
+              <h2 className="text-2xl font-bold text-stone-900 sm:text-3xl">
                 Featured Products
               </h2>
               <p className="mt-2 text-stone-600">
@@ -71,7 +71,7 @@ export default async function HomePage() {
               View all →
             </Link>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, paymentMethodLabel } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
@@ -41,7 +41,10 @@ export default async function OrdersPage() {
                 <span className="text-sm text-stone-500">
                   {format(order.createdAt, "MMM d, yyyy")}
                 </span>
-                <Badge>{order.status}</Badge>
+                <div className="flex flex-wrap gap-2">
+                  <Badge>{order.status}</Badge>
+                  <Badge variant="outline">{paymentMethodLabel(order.paymentMethod)}</Badge>
+                </div>
               </div>
               <p className="mb-2 font-semibold text-emerald-700">
                 {formatPrice(order.total.toString())}

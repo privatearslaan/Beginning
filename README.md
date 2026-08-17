@@ -1,6 +1,6 @@
 # Pawfect Pets — Pet Shop Website
 
-Full-stack pet shop website with e-commerce, service booking, admin panel, and Stripe payments.
+Full-stack pet shop website with e-commerce, service booking, admin panel, and Razorpay payments (INR).
 
 ## Stack
 
@@ -8,7 +8,8 @@ Full-stack pet shop website with e-commerce, service booking, admin panel, and S
 - **Tailwind CSS** + custom UI components
 - **PostgreSQL** + Prisma ORM
 - **Auth.js (NextAuth v5)** — credentials auth with customer/admin roles
-- **Stripe Checkout** — payments (demo mode when Stripe keys not configured)
+- **Razorpay** — UPI, cards, netbanking, wallets (INR, optional later)
+- **Cash on Delivery (COD)** — active checkout method
 - **Uploadthing** — image uploads (optional)
 
 ## Getting Started
@@ -59,16 +60,23 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Admin** — manage products, services, orders, bookings, and contact messages
 - **Contact** — contact form with admin inbox
 
-## Stripe
+## Payments
 
-Without real Stripe keys, checkout runs in **demo mode** — orders are marked paid without redirecting to Stripe. Add your test keys to `.env` for full Stripe Checkout.
+Checkout uses **Cash on Delivery (COD)** only for now. Customers place orders online and pay when the order is delivered.
+
+Admin order flow for COD:
+1. **Pending** — order placed
+2. **Shipped** — out for delivery
+3. **Delivered** — cash collected (mark **Paid** if you track payment separately)
+
+Razorpay integration is included for later if you want online payments.
 
 ## Deployment
 
 1. Create a [Neon](https://neon.tech) PostgreSQL database
-2. Set environment variables on [Vercel](https://vercel.com)
+2. Set environment variables on [Vercel](https://vercel.com) including Razorpay keys
 3. Deploy: `vercel --prod`
-4. Configure Stripe webhook: `POST /api/webhooks/stripe`
+4. Configure Razorpay webhook: `https://your-domain.vercel.app/api/webhooks/razorpay`
 
 ## Scripts
 

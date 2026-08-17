@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, paymentMethodLabel } from "@/lib/utils";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 interface SuccessPageProps {
-  searchParams: Promise<{ order_id?: string; demo?: string }>;
+  searchParams: Promise<{ order_id?: string }>;
 }
 
 export default async function CheckoutSuccessPage({
@@ -37,14 +37,13 @@ export default async function CheckoutSuccessPage({
       <h1 className="mb-2 text-3xl font-bold text-stone-900">
         Order Confirmed!
       </h1>
-      {params.demo === "true" && (
-        <p className="mb-4 text-sm text-orange-600">
-          Demo mode — Stripe is not configured. Order marked as paid.
-        </p>
-      )}
-      <p className="mb-6 text-stone-600">
+      <p className="mb-2 text-stone-600">
         Thank you for your order. Order total:{" "}
         <strong>{formatPrice(order.total.toString())}</strong>
+      </p>
+      <p className="mb-6 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        Payment method: <strong>{paymentMethodLabel(order.paymentMethod)}</strong>.
+        Please keep the exact amount ready when your order arrives.
       </p>
       <ul className="mb-8 space-y-2 text-left text-sm text-stone-600">
         {order.items.map((item) => (

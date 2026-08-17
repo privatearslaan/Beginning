@@ -41,17 +41,20 @@ export default async function CartPage() {
                 {formatPrice(total)}
               </span>
             </div>
+            <p className="mt-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+              Pay when your order is delivered. Cash on Delivery only.
+            </p>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <Link href="/shop">
-              <Button variant="outline">Continue Shopping</Button>
+          <div className="mt-6 flex flex-col gap-3">
+            <Link href="/shop" className="w-full">
+              <Button variant="outline" className="w-full">Continue Shopping</Button>
             </Link>
             {session?.user ? (
               <CheckoutButton />
             ) : (
-              <Link href="/login?callbackUrl=/cart">
-                <Button>Sign In to Checkout</Button>
+              <Link href="/login?callbackUrl=/cart" className="w-full">
+                <Button className="w-full">Sign In to Checkout</Button>
               </Link>
             )}
           </div>

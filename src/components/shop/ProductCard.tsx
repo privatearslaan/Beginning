@@ -45,11 +45,15 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
         </Link>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-lg font-bold text-emerald-700">
             {formatPrice(product.price.toString())}
           </span>
-          <AddToCartButton productId={product.id} disabled={product.stock === 0} />
+          <AddToCartButton
+            productId={product.id}
+            disabled={product.stock === 0}
+            className="w-full sm:w-auto"
+          />
         </div>
       </CardContent>
     </Card>

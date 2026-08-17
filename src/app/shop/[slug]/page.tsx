@@ -46,7 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <Badge variant="secondary">{categoryLabel(product.category)}</Badge>
             <Badge variant="outline">{petTypeLabel(product.petType)}</Badge>
           </div>
-          <h1 className="mb-4 text-3xl font-bold text-stone-900">
+          <h1 className="mb-4 text-2xl font-bold text-stone-900 sm:text-3xl">
             {product.name}
           </h1>
           <p className="mb-6 text-2xl font-bold text-emerald-700">
@@ -62,6 +62,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             productId={product.id}
             disabled={product.stock === 0}
             label={product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+            className="w-full sm:w-auto"
           />
         </div>
       </div>

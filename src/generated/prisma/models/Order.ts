@@ -38,6 +38,9 @@ export type OrderMinAggregateOutputType = {
   id: string | null
   userId: string | null
   stripeSessionId: string | null
+  razorpayOrderId: string | null
+  razorpayPaymentId: string | null
+  paymentMethod: $Enums.PaymentMethod | null
   status: $Enums.OrderStatus | null
   total: runtime.Decimal | null
   createdAt: Date | null
@@ -48,6 +51,9 @@ export type OrderMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   stripeSessionId: string | null
+  razorpayOrderId: string | null
+  razorpayPaymentId: string | null
+  paymentMethod: $Enums.PaymentMethod | null
   status: $Enums.OrderStatus | null
   total: runtime.Decimal | null
   createdAt: Date | null
@@ -58,6 +64,9 @@ export type OrderCountAggregateOutputType = {
   id: number
   userId: number
   stripeSessionId: number
+  razorpayOrderId: number
+  razorpayPaymentId: number
+  paymentMethod: number
   status: number
   total: number
   createdAt: number
@@ -78,6 +87,9 @@ export type OrderMinAggregateInputType = {
   id?: true
   userId?: true
   stripeSessionId?: true
+  razorpayOrderId?: true
+  razorpayPaymentId?: true
+  paymentMethod?: true
   status?: true
   total?: true
   createdAt?: true
@@ -88,6 +100,9 @@ export type OrderMaxAggregateInputType = {
   id?: true
   userId?: true
   stripeSessionId?: true
+  razorpayOrderId?: true
+  razorpayPaymentId?: true
+  paymentMethod?: true
   status?: true
   total?: true
   createdAt?: true
@@ -98,6 +113,9 @@ export type OrderCountAggregateInputType = {
   id?: true
   userId?: true
   stripeSessionId?: true
+  razorpayOrderId?: true
+  razorpayPaymentId?: true
+  paymentMethod?: true
   status?: true
   total?: true
   createdAt?: true
@@ -195,6 +213,9 @@ export type OrderGroupByOutputType = {
   id: string
   userId: string
   stripeSessionId: string | null
+  razorpayOrderId: string | null
+  razorpayPaymentId: string | null
+  paymentMethod: $Enums.PaymentMethod
   status: $Enums.OrderStatus
   total: runtime.Decimal
   createdAt: Date
@@ -228,6 +249,9 @@ export type OrderWhereInput = {
   id?: Prisma.StringFilter<"Order"> | string
   userId?: Prisma.StringFilter<"Order"> | string
   stripeSessionId?: Prisma.StringNullableFilter<"Order"> | string | null
+  razorpayOrderId?: Prisma.StringNullableFilter<"Order"> | string | null
+  razorpayPaymentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Order"> | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -240,6 +264,9 @@ export type OrderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  razorpayOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  razorpayPaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   status?: Prisma.SortOrder
   total?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -251,22 +278,28 @@ export type OrderOrderByWithRelationInput = {
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   stripeSessionId?: string
+  razorpayOrderId?: string
+  razorpayPaymentId?: string
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   userId?: Prisma.StringFilter<"Order"> | string
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Order"> | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.OrderItemListRelationFilter
-}, "id" | "stripeSessionId">
+}, "id" | "stripeSessionId" | "razorpayOrderId" | "razorpayPaymentId">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  razorpayOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  razorpayPaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   status?: Prisma.SortOrder
   total?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -285,6 +318,9 @@ export type OrderScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Order"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   stripeSessionId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  razorpayOrderId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  razorpayPaymentId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodWithAggregatesFilter<"Order"> | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   total?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -294,6 +330,9 @@ export type OrderScalarWhereWithAggregatesInput = {
 export type OrderCreateInput = {
   id?: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -306,6 +345,9 @@ export type OrderUncheckedCreateInput = {
   id?: string
   userId: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -316,6 +358,9 @@ export type OrderUncheckedCreateInput = {
 export type OrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -328,6 +373,9 @@ export type OrderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -339,6 +387,9 @@ export type OrderCreateManyInput = {
   id?: string
   userId: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -348,6 +399,9 @@ export type OrderCreateManyInput = {
 export type OrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -358,6 +412,9 @@ export type OrderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,6 +435,9 @@ export type OrderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
+  razorpayOrderId?: Prisma.SortOrder
+  razorpayPaymentId?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   status?: Prisma.SortOrder
   total?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -392,6 +452,9 @@ export type OrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
+  razorpayOrderId?: Prisma.SortOrder
+  razorpayPaymentId?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   status?: Prisma.SortOrder
   total?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -402,6 +465,9 @@ export type OrderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
+  razorpayOrderId?: Prisma.SortOrder
+  razorpayPaymentId?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   status?: Prisma.SortOrder
   total?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -459,6 +525,10 @@ export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
 }
 
+export type EnumPaymentMethodFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentMethod
+}
+
 export type EnumOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.OrderStatus
 }
@@ -480,6 +550,9 @@ export type OrderUpdateOneRequiredWithoutItemsNestedInput = {
 export type OrderCreateWithoutUserInput = {
   id?: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -490,6 +563,9 @@ export type OrderCreateWithoutUserInput = {
 export type OrderUncheckedCreateWithoutUserInput = {
   id?: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -530,6 +606,9 @@ export type OrderScalarWhereInput = {
   id?: Prisma.StringFilter<"Order"> | string
   userId?: Prisma.StringFilter<"Order"> | string
   stripeSessionId?: Prisma.StringNullableFilter<"Order"> | string | null
+  razorpayOrderId?: Prisma.StringNullableFilter<"Order"> | string | null
+  razorpayPaymentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Order"> | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -539,6 +618,9 @@ export type OrderScalarWhereInput = {
 export type OrderCreateWithoutItemsInput = {
   id?: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -550,6 +632,9 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   id?: string
   userId: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -575,6 +660,9 @@ export type OrderUpdateToOneWithWhereWithoutItemsInput = {
 export type OrderUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -586,6 +674,9 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -595,6 +686,9 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
 export type OrderCreateManyUserInput = {
   id?: string
   stripeSessionId?: string | null
+  razorpayOrderId?: string | null
+  razorpayPaymentId?: string | null
+  paymentMethod?: $Enums.PaymentMethod
   status?: $Enums.OrderStatus
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -604,6 +698,9 @@ export type OrderCreateManyUserInput = {
 export type OrderUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -614,6 +711,9 @@ export type OrderUpdateWithoutUserInput = {
 export type OrderUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -624,6 +724,9 @@ export type OrderUncheckedUpdateWithoutUserInput = {
 export type OrderUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razorpayPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -665,6 +768,9 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   userId?: boolean
   stripeSessionId?: boolean
+  razorpayOrderId?: boolean
+  razorpayPaymentId?: boolean
+  paymentMethod?: boolean
   status?: boolean
   total?: boolean
   createdAt?: boolean
@@ -678,6 +784,9 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   userId?: boolean
   stripeSessionId?: boolean
+  razorpayOrderId?: boolean
+  razorpayPaymentId?: boolean
+  paymentMethod?: boolean
   status?: boolean
   total?: boolean
   createdAt?: boolean
@@ -689,6 +798,9 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   userId?: boolean
   stripeSessionId?: boolean
+  razorpayOrderId?: boolean
+  razorpayPaymentId?: boolean
+  paymentMethod?: boolean
   status?: boolean
   total?: boolean
   createdAt?: boolean
@@ -700,13 +812,16 @@ export type OrderSelectScalar = {
   id?: boolean
   userId?: boolean
   stripeSessionId?: boolean
+  razorpayOrderId?: boolean
+  razorpayPaymentId?: boolean
+  paymentMethod?: boolean
   status?: boolean
   total?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "stripeSessionId" | "status" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "stripeSessionId" | "razorpayOrderId" | "razorpayPaymentId" | "paymentMethod" | "status" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
@@ -729,6 +844,9 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     userId: string
     stripeSessionId: string | null
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
+    paymentMethod: $Enums.PaymentMethod
     status: $Enums.OrderStatus
     total: runtime.Decimal
     createdAt: Date
@@ -1161,6 +1279,9 @@ export interface OrderFieldRefs {
   readonly id: Prisma.FieldRef<"Order", 'String'>
   readonly userId: Prisma.FieldRef<"Order", 'String'>
   readonly stripeSessionId: Prisma.FieldRef<"Order", 'String'>
+  readonly razorpayOrderId: Prisma.FieldRef<"Order", 'String'>
+  readonly razorpayPaymentId: Prisma.FieldRef<"Order", 'String'>
+  readonly paymentMethod: Prisma.FieldRef<"Order", 'PaymentMethod'>
   readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly total: Prisma.FieldRef<"Order", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>

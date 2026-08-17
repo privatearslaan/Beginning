@@ -28,6 +28,13 @@ export const OrderStatus = {
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
+export const PaymentMethod = {
+  COD: 'COD'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
 export const AppointmentStatus = {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',

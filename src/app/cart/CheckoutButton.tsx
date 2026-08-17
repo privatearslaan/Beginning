@@ -11,6 +11,7 @@ export function CheckoutButton() {
   return (
     <Button
       disabled={pending}
+      className="w-full"
       onClick={() => {
         startTransition(async () => {
           const result = await createCheckoutSession();
@@ -18,7 +19,7 @@ export function CheckoutButton() {
         });
       }}
     >
-      {pending ? "Processing..." : "Proceed to Checkout"}
+      {pending ? "Placing order..." : "Place Order · Cash on Delivery"}
     </Button>
   );
 }

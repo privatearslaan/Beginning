@@ -20,6 +20,10 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum PaymentMethod {
+  COD
+}
+
 enum AppointmentStatus {
   PENDING
   CONFIRMED
@@ -87,15 +91,18 @@ model Service {
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  userId          String
-  user            User        @relation(fields: [userId], references: [id])
-  stripeSessionId String?     @unique
-  status          OrderStatus @default(PENDING)
-  total           Decimal
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  items           OrderItem[]
+  id                String      @id @default(cuid())
+  userId            String
+  user              User        @relation(fields: [userId], references: [id])
+  stripeSessionId   String?     @unique
+  razorpayOrderId   String?     @unique
+  razorpayPaymentId String?       @unique
+  paymentMethod     PaymentMethod @default(COD)
+  status            OrderStatus   @default(PENDING)
+  total             Decimal
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  items             OrderItem[]
 }
 
 model OrderItem {

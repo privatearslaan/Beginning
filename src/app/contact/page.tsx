@@ -25,7 +25,7 @@ export default function ContactPage() {
       <div className="grid gap-10 lg:grid-cols-2">
         <div className="space-y-6">
           {[
-            { icon: MapPin, label: "Address", value: "123 Pet Lane, Austin, TX 78701" },
+            { icon: MapPin, label: "Address", value: "123 Pet Lane, Mumbai, MH 400001" },
             { icon: Phone, label: "Phone", value: "(512) 555-PETS" },
             { icon: Mail, label: "Email", value: "hello@pawfectpets.com" },
             { icon: Clock, label: "Hours", value: "Mon–Fri 9am–7pm, Sat 9am–6pm, Sun 10am–4pm" },
@@ -42,7 +42,7 @@ export default function ContactPage() {
           <div className="overflow-hidden rounded-xl border border-emerald-100">
             <iframe
               title="Store location"
-              src="https://maps.google.com/maps?q=Austin+TX&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Mumbai+India&t=&z=13&ie=UTF8&iwloc=&output=embed"
               className="h-64 w-full"
               loading="lazy"
             />

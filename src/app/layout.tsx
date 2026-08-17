@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
@@ -31,6 +31,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export default async function RootLayout({
   children,
 }: LayoutProps<"/">) {
@@ -42,7 +49,7 @@ export default async function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-stone-900">
+      <body className="min-h-full flex flex-col bg-cream text-stone-900 pb-[env(safe-area-inset-bottom)]">
         <Header
           cartCount={cartCount}
           user={
@@ -53,7 +60,7 @@ export default async function RootLayout({
         />
         <main className="flex-1">{children}</main>
         <Footer />
-        <Toaster position="top-right" richColors />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

@@ -5,13 +5,14 @@ import { format } from "date-fns";
 import { Select } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { updateOrderStatus } from "@/actions/checkout";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, paymentMethodLabel } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface AdminOrdersProps {
   orders: Array<{
     id: string;
     status: string;
+    paymentMethod: string;
     total: { toString(): string };
     createdAt: Date;
     user: { name: string; email: string };
@@ -38,7 +39,10 @@ export function AdminOrdersList({ orders }: AdminOrdersProps) {
               <p className="font-medium text-stone-900">{order.user.name}</p>
               <p className="text-sm text-stone-500">{order.user.email}</p>
             </div>
-            <Badge>{order.status}</Badge>
+            <div className="flex flex-wrap gap-2">
+              <Badge>{order.status}</Badge>
+              <Badge variant="secondary">{paymentMethodLabel(order.paymentMethod)}</Badge>
+            </div>
           </div>
           <p className="mb-2 text-sm text-stone-500">
             {format(new Date(order.createdAt), "MMM d, yyyy h:mm a")}

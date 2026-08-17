@@ -44,14 +44,14 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         </p>
       </div>
 
-      <form className="mb-8 flex flex-wrap gap-4">
+      <form className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-4">
         <Input
           name="q"
           placeholder="Search products..."
           defaultValue={params.q}
-          className="max-w-xs"
+          className="w-full lg:max-w-xs"
         />
-        <Select name="category" defaultValue={params.category ?? ""}>
+        <Select name="category" defaultValue={params.category ?? ""} className="w-full">
           <option value="">All Categories</option>
           <option value="FOOD">Food</option>
           <option value="TOYS">Toys</option>
@@ -59,7 +59,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <option value="HEALTH">Health</option>
           <option value="GROOMING">Grooming</option>
         </Select>
-        <Select name="petType" defaultValue={params.petType ?? ""}>
+        <Select name="petType" defaultValue={params.petType ?? ""} className="w-full">
           <option value="">All Pets</option>
           <option value="DOG">Dogs</option>
           <option value="CAT">Cats</option>
@@ -67,20 +67,22 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <option value="FISH">Fish</option>
           <option value="SMALL_PET">Small Pets</option>
         </Select>
-        <Button type="submit">Filter</Button>
-        {(params.q || params.category || params.petType) && (
-          <Link href="/shop">
-            <Button type="button" variant="outline">
-              Clear
-            </Button>
-          </Link>
-        )}
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+          <Button type="submit" className="w-full sm:w-auto">Filter</Button>
+          {(params.q || params.category || params.petType) && (
+            <Link href="/shop" className="w-full sm:w-auto">
+              <Button type="button" variant="outline" className="w-full">
+                Clear
+              </Button>
+            </Link>
+          )}
+        </div>
       </form>
 
       {products.length === 0 ? (
         <p className="text-center text-stone-500">No products found.</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

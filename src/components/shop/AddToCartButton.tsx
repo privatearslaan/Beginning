@@ -11,6 +11,7 @@ interface AddToCartButtonProps {
   disabled?: boolean;
   quantity?: number;
   label?: string;
+  className?: string;
 }
 
 export function AddToCartButton({
@@ -18,6 +19,7 @@ export function AddToCartButton({
   disabled,
   quantity = 1,
   label,
+  className,
 }: AddToCartButtonProps) {
   const [pending, startTransition] = useTransition();
 
@@ -25,6 +27,7 @@ export function AddToCartButton({
     <Button
       size="sm"
       disabled={disabled || pending}
+      className={className}
       onClick={() => {
         startTransition(async () => {
           const result = await addToCart(productId, quantity);

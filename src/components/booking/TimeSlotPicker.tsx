@@ -30,7 +30,7 @@ export function TimeSlotPicker({
     <div className="space-y-6">
       <div>
         <h3 className="mb-3 font-medium text-stone-900">Select a date</h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2 snap-x snap-mandatory">
           {dates.map((date) => {
             const dateStr = format(date, "yyyy-MM-dd");
             const isPast = isBefore(date, startOfDay(new Date()));
@@ -42,6 +42,7 @@ export function TimeSlotPicker({
                 size="sm"
                 disabled={isPast}
                 onClick={() => setSelectedDate(dateStr)}
+                className="shrink-0 snap-start"
               >
                 {format(date, "MMM d")}
               </Button>
@@ -57,7 +58,7 @@ export function TimeSlotPicker({
             No available slots for this date.
           </p>
         ) : (
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 min-[400px]:grid-cols-3 sm:grid-cols-4">
             {slotsForDate.map((slot) => {
               const time = format(new Date(slot), "h:mm a");
               return (
@@ -66,10 +67,10 @@ export function TimeSlotPicker({
                   type="button"
                   onClick={() => onSelect(slot)}
                   className={cn(
-                    "rounded-lg border px-3 py-2 text-sm transition-colors",
+                    "min-h-11 rounded-lg border px-3 py-2.5 text-sm transition-colors touch-manipulation",
                     selectedSlot === slot
                       ? "border-emerald-600 bg-emerald-600 text-white"
-                      : "border-emerald-200 bg-white text-stone-700 hover:bg-emerald-50",
+                      : "border-emerald-200 bg-white text-stone-700 hover:bg-emerald-50 active:bg-emerald-100",
                   )}
                 >
                   {time}

@@ -7,9 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPrice(price: number | string) {
   const value = typeof price === "string" ? parseFloat(price) : price;
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
@@ -32,6 +33,13 @@ export function petTypeLabel(petType: string) {
     ALL: "All Pets",
   };
   return labels[petType] ?? petType;
+}
+
+export function paymentMethodLabel(method: string) {
+  const labels: Record<string, string> = {
+    COD: "Cash on Delivery",
+  };
+  return labels[method] ?? method;
 }
 
 export function categoryLabel(category: string) {

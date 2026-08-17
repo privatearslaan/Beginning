@@ -3,9 +3,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { stripe, isStripeConfigured } from "@/lib/stripe";
 import { getCartItems, clearCart } from "@/actions/cart";
-import { asStringArray } from "@/lib/product-images";
 
 export async function createCheckoutSession() {
   const session = await auth();
@@ -34,6 +32,7 @@ export async function createCheckoutSession() {
       userId: session.user.id,
       total,
       status: "PENDING",
+      paymentMethod: "COD",
       items: {
         create: cartItems.map((item) => ({
           productId: item.productId,
@@ -44,46 +43,15 @@ export async function createCheckoutSession() {
     },
   });
 
-  if (!isStripeConfigured()) {
-    await db.order.update({
-      where: { id: order.id },
-      data: { status: "PAID" },
+  for (const item of cartItems) {
+    await db.product.update({
+      where: { id: item.productId },
+      data: { stock: { decrement: item.quantity } },
     });
-    for (const item of cartItems) {
-      await db.product.update({
-        where: { id: item.productId },
-        data: { stock: { decrement: item.quantity } },
-      });
-    }
-    await clearCart();
-    redirect(`/checkout/success?order_id=${order.id}&demo=true`);
   }
 
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: session.user.email,
-    line_items: cartItems.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.product.name,
-          images: asStringArray(item.product.images).slice(0, 1),
-        },
-        unit_amount: Math.round(Number(item.product.price) * 100),
-      },
-      quantity: item.quantity,
-    })),
-    metadata: { orderId: order.id },
-    success_url: `${process.env.AUTH_URL}/checkout/success?order_id=${order.id}`,
-    cancel_url: `${process.env.AUTH_URL}/cart`,
-  });
-
-  await db.order.update({
-    where: { id: order.id },
-    data: { stripeSessionId: checkoutSession.id },
-  });
-
-  redirect(checkoutSession.url!);
+  await clearCart();
+  redirect(`/checkout/success?order_id=${order.id}`);
 }
 
 export async function updateOrderStatus(
