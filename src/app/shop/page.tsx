@@ -25,8 +25,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     where: {
       ...(params.q && {
         OR: [
-          { name: { contains: params.q } },
-          { description: { contains: params.q } },
+          { name: { contains: params.q, mode: "insensitive" } },
+          { description: { contains: params.q, mode: "insensitive" } },
         ],
       }),
       ...(params.category && { category: params.category as never }),
