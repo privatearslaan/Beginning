@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone, PawPrint } from "lucide-react";
+import { STORE_PHONE } from "@/lib/india";
 
 export function Footer() {
   return (
@@ -39,11 +40,13 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-emerald-100">
             <li className="flex items-start justify-center gap-2 sm:justify-start">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>123 Pet Lane, Mumbai, MH</span>
+              <span>123 Pet Lane, Mumbai, Maharashtra 400001</span>
             </li>
             <li className="flex items-center justify-center gap-2 sm:justify-start">
               <Phone className="h-4 w-4 shrink-0" />
-              (512) 555-PETS
+              <a href="tel:+919876543210" className="hover:text-white">
+                {STORE_PHONE}
+              </a>
             </li>
             <li className="flex items-center justify-center gap-2 sm:justify-start">
               <Mail className="h-4 w-4 shrink-0" />

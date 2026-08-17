@@ -42,7 +42,7 @@ async function main() {
       slug: "premium-dog-food",
       description:
         "High-quality dry dog food with real chicken, vitamins, and minerals for adult dogs.",
-      price: 49.99,
+      price: 1299,
       stock: 50,
       category: "FOOD" as const,
       petType: "DOG" as const,
@@ -54,7 +54,7 @@ async function main() {
       slug: "cat-scratching-post",
       description:
         "Durable sisal scratching post with a cozy perch on top for your feline friend.",
-      price: 34.99,
+      price: 899,
       stock: 30,
       category: "TOYS" as const,
       petType: "CAT" as const,
@@ -66,7 +66,7 @@ async function main() {
       slug: "bird-seed-mix",
       description:
         "Nutritious blend of seeds for parakeets, canaries, and other small birds.",
-      price: 12.99,
+      price: 349,
       stock: 100,
       category: "FOOD" as const,
       petType: "BIRD" as const,
@@ -78,7 +78,7 @@ async function main() {
       slug: "aquarium-starter-kit",
       description:
         "Complete 10-gallon aquarium kit with filter, heater, and LED lighting.",
-      price: 89.99,
+      price: 2499,
       stock: 15,
       category: "ACCESSORIES" as const,
       petType: "FISH" as const,
@@ -90,7 +90,7 @@ async function main() {
       slug: "rope-chew-toy",
       description:
         "Durable cotton rope toy for dogs of all sizes. Great for dental health.",
-      price: 9.99,
+      price: 299,
       stock: 80,
       category: "TOYS" as const,
       petType: "DOG" as const,
@@ -102,7 +102,7 @@ async function main() {
       slug: "flea-tick-shampoo",
       description:
         "Gentle medicated shampoo that kills fleas and ticks on contact.",
-      price: 14.99,
+      price: 449,
       stock: 40,
       category: "HEALTH" as const,
       petType: "ALL" as const,
@@ -125,7 +125,7 @@ async function main() {
       description:
         "Complete bath, brush, nail trim, and ear cleaning for dogs and cats.",
       durationMin: 60,
-      price: 55.0,
+      price: 1499,
       active: true,
     },
     {
@@ -133,7 +133,7 @@ async function main() {
       description:
         "Quick and gentle nail trimming for dogs, cats, and small pets.",
       durationMin: 15,
-      price: 15.0,
+      price: 399,
       active: true,
     },
     {
@@ -141,7 +141,7 @@ async function main() {
       description:
         "Basic health assessment including weight, coat, teeth, and general condition.",
       durationMin: 30,
-      price: 35.0,
+      price: 899,
       active: true,
     },
   ];

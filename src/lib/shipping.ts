@@ -1,4 +1,4 @@
-import { formatPrice } from "@/lib/utils";
+import { formatIndianPhone } from "@/lib/india";
 
 export function formatShippingAddress(order: {
   shippingName: string;
@@ -14,7 +14,7 @@ export function formatShippingAddress(order: {
     order.addressLine1,
     order.addressLine2,
     `${order.city}, ${order.state} ${order.pincode}`,
-    `Phone: ${order.shippingPhone}`,
+    `Phone: ${formatIndianPhone(order.shippingPhone)}`,
   ].filter(Boolean);
 
   return lines;

@@ -6,41 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { PhoneInput } from "@/components/ui/PhoneInput";
+import { StateSearchSelect } from "@/components/checkout/StateSearchSelect";
 import { placeOrder } from "@/actions/checkout";
 import { formatPrice } from "@/lib/utils";
 import { toast } from "sonner";
-
-const INDIAN_STATES = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-  "Delhi",
-];
 
 interface CheckoutFormProps {
   defaultName: string;
@@ -94,17 +64,10 @@ export function CheckoutForm({
 
         <div>
           <Label htmlFor="phone">Mobile Number</Label>
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            inputMode="numeric"
-            placeholder="9876543210"
-            pattern="[6-9][0-9]{9}"
-            maxLength={10}
-            required
-            autoComplete="tel"
-          />
+          <PhoneInput id="phone" name="phone" required />
+          <p className="mt-1 text-xs text-stone-500">
+            10-digit Indian mobile number starting with 6–9
+          </p>
         </div>
 
         <div>
@@ -134,23 +97,8 @@ export function CheckoutForm({
             <Input id="city" name="city" required autoComplete="address-level2" />
           </div>
           <div>
-            <Label htmlFor="state">State</Label>
-            <select
-              id="state"
-              name="state"
-              required
-              defaultValue=""
-              className="flex h-11 w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-base text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 sm:text-sm"
-            >
-              <option value="" disabled>
-                Select state
-              </option>
-              {INDIAN_STATES.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
+            <Label htmlFor="state">State / UT</Label>
+            <StateSearchSelect id="state" name="state" required />
           </div>
         </div>
 
@@ -204,7 +152,7 @@ export function CheckoutForm({
           ))}
         </ul>
         <div className="flex items-center justify-between border-t border-emerald-200 pt-4">
-          <span className="font-semibold text-stone-900">Total</span>
+          <span className="font-semibold text-stone-900">Total (INR)</span>
           <span className="text-xl font-bold text-emerald-700">
             {formatPrice(total)}
           </span>

@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { STORE_PHONE, STORE_PHONE_TEL } from "@/lib/india";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -25,16 +26,22 @@ export default function ContactPage() {
       <div className="grid gap-10 lg:grid-cols-2">
         <div className="space-y-6">
           {[
-            { icon: MapPin, label: "Address", value: "123 Pet Lane, Mumbai, MH 400001" },
-            { icon: Phone, label: "Phone", value: "(512) 555-PETS" },
+            { icon: MapPin, label: "Address", value: "123 Pet Lane, Mumbai, Maharashtra 400001" },
+            { icon: Phone, label: "Phone", value: STORE_PHONE, href: `tel:${STORE_PHONE_TEL}` },
             { icon: Mail, label: "Email", value: "hello@pawfectpets.com" },
             { icon: Clock, label: "Hours", value: "Mon–Fri 9am–7pm, Sat 9am–6pm, Sun 10am–4pm" },
-          ].map(({ icon: Icon, label, value }) => (
+          ].map(({ icon: Icon, label, value, href }) => (
             <div key={label} className="flex gap-4">
               <Icon className="h-5 w-5 shrink-0 text-emerald-600" />
               <div>
                 <p className="font-medium text-stone-900">{label}</p>
-                <p className="text-stone-600">{value}</p>
+                {href ? (
+                  <a href={href} className="text-stone-600 hover:text-emerald-700">
+                    {value}
+                  </a>
+                ) : (
+                  <p className="text-stone-600">{value}</p>
+                )}
               </div>
             </div>
           ))}

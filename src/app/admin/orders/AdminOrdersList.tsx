@@ -6,6 +6,7 @@ import { Select } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { updateOrderStatus } from "@/actions/checkout";
 import { formatPrice, paymentMethodLabel } from "@/lib/utils";
+import { formatIndianPhone } from "@/lib/india";
 import { formatShippingAddressInline } from "@/lib/shipping";
 import { toast } from "sonner";
 
@@ -62,7 +63,7 @@ export function AdminOrdersList({ orders }: AdminOrdersProps) {
           <div className="mb-3 rounded-lg bg-stone-50 p-3 text-sm text-stone-600">
             <p className="font-medium text-stone-900">{order.shippingName}</p>
             <p>{formatShippingAddressInline(order)}</p>
-            <p className="mt-1">Phone: {order.shippingPhone}</p>
+            <p className="mt-1">Phone: {formatIndianPhone(order.shippingPhone)}</p>
             {order.deliveryNotes && (
               <p className="mt-1 text-stone-500">Notes: {order.deliveryNotes}</p>
             )}

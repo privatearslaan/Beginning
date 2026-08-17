@@ -30,8 +30,8 @@ export function ProductForm() {
           <Input id="name" name="name" required />
         </div>
         <div>
-          <Label htmlFor="price">Price</Label>
-          <Input id="price" name="price" type="number" step="0.01" required />
+          <Label htmlFor="price">Price (INR ₹)</Label>
+          <Input id="price" name="price" type="number" min="1" step="1" required />
         </div>
         <div>
           <Label htmlFor="stock">Stock</Label>
