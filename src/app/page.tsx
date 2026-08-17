@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Heart, Scissors, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { ProductSearchBar } from "@/components/shop/ProductSearchBar";
 import { ServiceCard } from "@/components/booking/ServiceCard";
 import { db } from "@/lib/db";
 
@@ -19,10 +20,14 @@ export default async function HomePage() {
             <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
               Everything your pet needs, all in one place
             </h1>
-            <p className="mb-8 text-base text-emerald-100 sm:text-lg">
+            <p className="mb-6 text-base text-emerald-100 sm:text-lg">
               Premium food, toys, and accessories plus grooming and care
               services — because your furry friends deserve the best.
             </p>
+            <ProductSearchBar
+              variant="hero"
+              className="mb-8 w-full max-w-xl mx-auto lg:mx-0"
+            />
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link href="/shop" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
