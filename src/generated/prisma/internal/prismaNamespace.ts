@@ -1110,6 +1110,14 @@ export const OrderScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   status: 'status',
   total: 'total',
+  shippingName: 'shippingName',
+  shippingPhone: 'shippingPhone',
+  addressLine1: 'addressLine1',
+  addressLine2: 'addressLine2',
+  city: 'city',
+  state: 'state',
+  pincode: 'pincode',
+  deliveryNotes: 'deliveryNotes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

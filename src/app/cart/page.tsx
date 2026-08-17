@@ -4,7 +4,6 @@ import { getCartItems } from "@/actions/cart";
 import { CartItemRow } from "@/components/shop/CartItemRow";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
-import { CheckoutButton } from "./CheckoutButton";
 import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -51,7 +50,11 @@ export default async function CartPage() {
               <Button variant="outline" className="w-full">Continue Shopping</Button>
             </Link>
             {session?.user ? (
-              <CheckoutButton />
+              <Link href="/checkout" className="w-full">
+                <Button className="w-full" size="lg">
+                  Proceed to Checkout
+                </Button>
+              </Link>
             ) : (
               <Link href="/login?callbackUrl=/cart" className="w-full">
                 <Button className="w-full">Sign In to Checkout</Button>

@@ -6,6 +6,7 @@ import { Select } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { updateOrderStatus } from "@/actions/checkout";
 import { formatPrice, paymentMethodLabel } from "@/lib/utils";
+import { formatShippingAddressInline } from "@/lib/shipping";
 import { toast } from "sonner";
 
 interface AdminOrdersProps {
@@ -13,6 +14,14 @@ interface AdminOrdersProps {
     id: string;
     status: string;
     paymentMethod: string;
+    shippingName: string;
+    shippingPhone: string;
+    addressLine1: string;
+    addressLine2: string | null;
+    city: string;
+    state: string;
+    pincode: string;
+    deliveryNotes: string | null;
     total: { toString(): string };
     createdAt: Date;
     user: { name: string; email: string };
@@ -50,6 +59,14 @@ export function AdminOrdersList({ orders }: AdminOrdersProps) {
           <p className="mb-2 font-semibold text-emerald-700">
             {formatPrice(order.total.toString())}
           </p>
+          <div className="mb-3 rounded-lg bg-stone-50 p-3 text-sm text-stone-600">
+            <p className="font-medium text-stone-900">{order.shippingName}</p>
+            <p>{formatShippingAddressInline(order)}</p>
+            <p className="mt-1">Phone: {order.shippingPhone}</p>
+            {order.deliveryNotes && (
+              <p className="mt-1 text-stone-500">Notes: {order.deliveryNotes}</p>
+            )}
+          </div>
           <ul className="mb-3 text-sm text-stone-600">
             {order.items.map((item, i) => (
               <li key={i}>

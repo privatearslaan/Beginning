@@ -4,6 +4,7 @@ import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { formatPrice, paymentMethodLabel } from "@/lib/utils";
+import { formatShippingAddress } from "@/lib/shipping";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -45,6 +46,17 @@ export default async function CheckoutSuccessPage({
         Payment method: <strong>{paymentMethodLabel(order.paymentMethod)}</strong>.
         Please keep the exact amount ready when your order arrives.
       </p>
+      <div className="mb-8 rounded-xl border border-emerald-100 bg-white p-4 text-left text-sm text-stone-600">
+        <p className="mb-2 font-medium text-stone-900">Deliver to</p>
+        {formatShippingAddress(order).map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+        {order.deliveryNotes && (
+          <p className="mt-2 text-stone-500">
+            Notes: {order.deliveryNotes}
+          </p>
+        )}
+      </div>
       <ul className="mb-8 space-y-2 text-left text-sm text-stone-600">
         {order.items.map((item) => (
           <li key={item.id}>

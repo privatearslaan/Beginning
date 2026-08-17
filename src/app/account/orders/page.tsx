@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { formatPrice, paymentMethodLabel } from "@/lib/utils";
+import { formatShippingAddressInline } from "@/lib/shipping";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
@@ -48,6 +49,9 @@ export default async function OrdersPage() {
               </div>
               <p className="mb-2 font-semibold text-emerald-700">
                 {formatPrice(order.total.toString())}
+              </p>
+              <p className="mb-2 text-sm text-stone-500">
+                {formatShippingAddressInline(order)}
               </p>
               <ul className="text-sm text-stone-600">
                 {order.items.map((item) => (
