@@ -4,15 +4,18 @@ import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { SEARCH_CATEGORIES, SITE } from "@/lib/site";
 
 interface ProductSearchBarProps {
   variant?: "hero" | "default";
   className?: string;
+  showCategory?: boolean;
 }
 
 export function ProductSearchBar({
   variant = "default",
   className,
+  showCategory = true,
 }: ProductSearchBarProps) {
   const router = useRouter();
   const isHero = variant === "hero";
@@ -24,7 +27,11 @@ export function ProductSearchBar({
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const query = String(formData.get("q") ?? "").trim();
-        router.push(query ? `/shop?q=${encodeURIComponent(query)}` : "/shop");
+        const category = String(formData.get("category") ?? "");
+        const categoryEntry = SEARCH_CATEGORIES.find((item) => item.value === category);
+        const base = categoryEntry && "href" in categoryEntry ? categoryEntry.href : "/shop";
+        const url = query ? `${base}${base.includes("?") ? "&" : "?"}q=${encodeURIComponent(query)}` : base;
+        router.push(url);
       }}
     >
       <div
@@ -45,24 +52,44 @@ export function ProductSearchBar({
           <Input
             name="q"
             type="search"
-            placeholder="Search food, toys, accessories..."
+            placeholder={SITE.searchPlaceholder}
             className={
               isHero
-                ? "h-12 border-0 bg-transparent pl-10 text-base text-stone-900 placeholder:text-stone-400 focus-visible:ring-emerald-500"
+                ? "h-12 border-0 bg-transparent pl-10 text-base text-stone-900 placeholder:text-stone-400 focus-visible:ring-orange-500"
                 : "pl-9"
             }
             autoComplete="off"
           />
         </div>
+        {showCategory && (
+          <select
+            name="category"
+            aria-label="Category"
+            className={
+              isHero
+                ? "h-12 rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-700"
+                : "h-10 rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-700"
+            }
+            defaultValue=""
+          >
+            {SEARCH_CATEGORIES.map((category) => (
+              <option key={category.value || "all"} value={category.value}>
+                {category.label}
+              </option>
+            ))}
+          </select>
+        )}
         <Button
           type="submit"
+          size="icon"
+          aria-label="Search"
           className={
             isHero
-              ? "h-12 w-full bg-orange-500 hover:bg-orange-600 sm:w-auto sm:px-8"
-              : "w-full sm:w-auto"
+              ? "h-12 w-full bg-orange-500 hover:bg-orange-600 sm:w-12"
+              : "h-10 w-full sm:w-10"
           }
         >
-          Search Products
+          <Search className="h-5 w-5" />
         </Button>
       </div>
     </form>

@@ -1,62 +1,98 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, PawPrint } from "lucide-react";
-import { STORE_PHONE } from "@/lib/india";
+import {
+  FOOTER_COMPANY_LINKS,
+  FOOTER_SHOP_LINKS,
+  SITE,
+  whatsappUrl,
+} from "@/lib/site";
+import { STORE_PHONE, STORE_PHONE_TEL } from "@/lib/india";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-emerald-100 bg-emerald-900 text-emerald-50">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 text-center sm:grid-cols-2 sm:py-12 sm:text-left lg:grid-cols-4 lg:px-8">
+    <footer className="mt-auto border-t border-orange-100 bg-stone-900 text-stone-100">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-2 sm:py-12 lg:grid-cols-4 lg:px-8">
         <div className="sm:col-span-2 lg:col-span-1">
-          <div className="mb-4 flex items-center justify-center gap-2 font-bold sm:justify-start">
-            <PawPrint className="h-6 w-6 text-orange-400" />
-            Pawfect Pets
-          </div>
-          <p className="mx-auto max-w-xs text-sm text-emerald-100 sm:mx-0">
-            Your neighborhood pet shop for quality products, grooming, and care.
+          <p className="mb-2 text-lg font-bold text-white">{SITE.name}</p>
+          <p className="text-sm text-stone-300">{SITE.tagline}</p>
+          <a
+            href={whatsappUrl()}
+            className="mt-4 inline-block rounded-lg bg-orange-500 px-4 py-2 text-sm font-medium text-white hover:bg-orange-600"
+          >
+            WhatsApp Us
+          </a>
+        </div>
+
+        <div>
+          <h3 className="mb-3 font-semibold text-white">Shop</h3>
+          <ul className="space-y-2 text-sm text-stone-300">
+            {FOOTER_SHOP_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-orange-300">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="mb-3 font-semibold text-white">Company</h3>
+          <ul className="space-y-2 text-sm text-stone-300">
+            {FOOTER_COMPANY_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-orange-300">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="sm:col-span-2 lg:col-span-1">
+          <h3 className="mb-3 font-semibold text-white">Visit Us</h3>
+          <p className="text-sm text-stone-300">{SITE.address.line}</p>
+          <p className="mt-2 text-sm text-stone-300">
+            <a href={`tel:${STORE_PHONE_TEL}`} className="hover:text-orange-300">
+              {STORE_PHONE}
+            </a>
+            <br />
+            <a
+              href={`mailto:${SITE.emails.primary}`}
+              className="hover:text-orange-300"
+            >
+              {SITE.emails.primary}
+            </a>
           </p>
-        </div>
-
-        <div>
-          <h3 className="mb-3 font-semibold">Quick Links</h3>
-          <ul className="space-y-2 text-sm text-emerald-100">
-            <li><Link href="/shop" className="inline-block py-1 hover:text-white">Shop</Link></li>
-            <li><Link href="/services" className="inline-block py-1 hover:text-white">Services</Link></li>
-            <li><Link href="/about" className="inline-block py-1 hover:text-white">About</Link></li>
-            <li><Link href="/contact" className="inline-block py-1 hover:text-white">Contact</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="mb-3 font-semibold">Store Hours</h3>
-          <ul className="space-y-1 text-sm text-emerald-100">
-            <li>Mon–Fri: 9am – 7pm</li>
-            <li>Saturday: 9am – 6pm</li>
-            <li>Sunday: 10am – 4pm</li>
-          </ul>
-        </div>
-
-        <div className="sm:col-span-2 lg:col-span-1">
-          <h3 className="mb-3 font-semibold">Contact</h3>
-          <ul className="space-y-2 text-sm text-emerald-100">
-            <li className="flex items-start justify-center gap-2 sm:justify-start">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>123 Pet Lane, Mumbai, Maharashtra 400001</span>
-            </li>
-            <li className="flex items-center justify-center gap-2 sm:justify-start">
-              <Phone className="h-4 w-4 shrink-0" />
-              <a href="tel:+919876543210" className="hover:text-white">
-                {STORE_PHONE}
-              </a>
-            </li>
-            <li className="flex items-center justify-center gap-2 sm:justify-start">
-              <Mail className="h-4 w-4 shrink-0" />
-              hello@pawfectpets.com
-            </li>
-          </ul>
+          <div className="mt-4 flex gap-4 text-sm">
+            <a
+              href={SITE.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-orange-300"
+            >
+              Instagram
+            </a>
+            <a
+              href={whatsappUrl(SITE.whatsappProducts)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-orange-300"
+            >
+              WhatsApp
+            </a>
+          </div>
         </div>
       </div>
-      <div className="border-t border-emerald-800 px-4 py-4 text-center text-sm text-emerald-200">
-        © {new Date().getFullYear()} Pawfect Pets. All rights reserved.
+      <div className="border-t border-stone-800 px-4 py-4 text-center text-sm text-stone-400">
+        Designed and developed by{" "}
+        <a
+          href={SITE.developer.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-orange-300"
+        >
+          {SITE.developer.name}
+        </a>
       </div>
     </footer>
   );

@@ -12,7 +12,7 @@ interface PhoneInputProps
 export function PhoneInput({
   className,
   prefixClassName,
-  placeholder = "98765 43210",
+  placeholder = "95964 04899",
   maxLength = 10,
   ...props
 }: PhoneInputProps) {

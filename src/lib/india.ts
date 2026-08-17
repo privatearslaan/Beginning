@@ -40,8 +40,10 @@ export const INDIAN_STATES_AND_UTS = [
 
 export type IndianStateOrUt = (typeof INDIAN_STATES_AND_UTS)[number];
 
-export const STORE_PHONE = "+91 98765 43210";
-export const STORE_PHONE_TEL = "+919876543210";
+export const STORE_PHONE = "+91 9596404899";
+export const STORE_PHONE_TEL = "+919596404899";
+export const STORE_EMAIL = "thehappytails24@gmail.com";
+export const STORE_EMAIL_SUPPORT = "suhan@thehappytails.co.in";
 
 const INDIAN_STATE_SET = new Set<string>(INDIAN_STATES_AND_UTS);
 

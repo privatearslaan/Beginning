@@ -96,7 +96,7 @@ export function RazorpayCheckout({
         key: keyId,
         amount: amountPaise,
         currency: "INR",
-        name: "Pawfect Pets",
+        name: "The Happy Tails",
         description: "Pet shop order payment",
         order_id: razorpayOrderId,
         prefill: {

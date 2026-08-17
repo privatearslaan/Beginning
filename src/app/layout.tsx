@@ -3,8 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TopStrip } from "@/components/layout/TopStrip";
+import { SupportBot } from "@/components/layout/SupportBot";
+import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { auth } from "@/lib/auth";
 import { getCartCount } from "@/actions/cart";
+import { SITE } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,14 +23,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pawfect Pets — Your Neighborhood Pet Shop",
-    template: "%s | Pawfect Pets",
+    default: `${SITE.name} — Pet Shop & Grooming in Anantnag`,
+    template: `%s | ${SITE.name}`,
   },
-  description:
-    "Quality pet products, grooming services, and expert care for dogs, cats, and more.",
+  description: SITE.description,
   openGraph: {
-    title: "Pawfect Pets",
-    description: "Quality pet products, grooming services, and expert care.",
+    title: SITE.name,
+    description: SITE.description,
     type: "website",
   },
 };
@@ -49,7 +52,8 @@ export default async function RootLayout({
       lang="en-IN"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-stone-900 pb-[env(safe-area-inset-bottom)]">
+      <body className="min-h-full flex flex-col bg-cream text-stone-900 pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-[env(safe-area-inset-bottom)]">
+        <TopStrip />
         <Header
           cartCount={cartCount}
           user={
@@ -60,6 +64,8 @@ export default async function RootLayout({
         />
         <main className="flex-1">{children}</main>
         <Footer />
+        <SupportBot />
+        <MobileTabBar />
         <Toaster position="top-center" richColors />
       </body>
     </html>
