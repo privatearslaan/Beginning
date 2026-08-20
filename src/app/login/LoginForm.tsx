@@ -8,10 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { loginUser, registerUser } from "@/actions/auth";
-import { PAGE_COPY } from "@/lib/site";
+import { PAGE_COPY, whatsappUrl } from "@/lib/site";
 import { toast } from "sonner";
 
-export default function AuthForm() {
+interface AuthFormProps {
+  dbAvailable: boolean;
+}
+
+export default function AuthForm({ dbAvailable }: AuthFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/account";
@@ -28,6 +32,24 @@ export default function AuthForm() {
       />
 
       <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
+        {!dbAvailable && (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+            <p className="font-semibold">Accounts are temporarily offline</p>
+            <p className="mt-1">
+              You can still browse the shop, checkout as guest, and book grooming
+              without signing in.
+            </p>
+            <a
+              href={whatsappUrl("Hi Happy Tails, I need help with my account.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex font-semibold text-orange-700 underline"
+            >
+              Contact us on WhatsApp →
+            </a>
+          </div>
+        )}
+
         <div className="mb-6 flex rounded-xl border border-orange-100 bg-white p-1">
           <button
             type="button"
@@ -53,12 +75,16 @@ export default function AuthForm() {
           <form
             action={(formData) => {
               startTransition(async () => {
-                const result = await loginUser(formData);
-                if (result.error) {
-                  toast.error(result.error);
-                } else {
-                  router.push(callbackUrl);
-                  router.refresh();
+                try {
+                  const result = await loginUser(formData);
+                  if (result.error) {
+                    toast.error(result.error);
+                  } else {
+                    router.push(callbackUrl);
+                    router.refresh();
+                  }
+                } catch {
+                  toast.error("Something went wrong. Please try again.");
                 }
               });
             }}
@@ -69,8 +95,14 @@ export default function AuthForm() {
             </p>
             <h2 className="text-xl font-bold text-stone-900">Login</h2>
             <div>
-              <Label htmlFor="login-email">Email or phone</Label>
-              <Input id="login-email" name="email" required autoComplete="username" />
+              <Label htmlFor="login-email">Email</Label>
+              <Input
+                id="login-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="username"
+              />
             </div>
             <div>
               <Label htmlFor="login-password">Password</Label>
@@ -82,9 +114,14 @@ export default function AuthForm() {
                 autoComplete="current-password"
               />
             </div>
-            <Button type="submit" disabled={pending} className="w-full">
+            <Button type="submit" disabled={pending || !dbAvailable} className="w-full">
               {pending ? "Signing in..." : "Login"}
             </Button>
+            {!dbAvailable && (
+              <p className="text-center text-xs text-amber-700">
+                Login is disabled while accounts are offline.
+              </p>
+            )}
             <p className="text-center text-sm text-stone-600">
               Don&apos;t have an account?{" "}
               <button
@@ -100,13 +137,17 @@ export default function AuthForm() {
           <form
             action={(formData) => {
               startTransition(async () => {
-                const result = await registerUser(formData);
-                if (result.error) {
-                  toast.error(result.error);
-                } else {
-                  toast.success("Account created!");
-                  router.push("/account");
-                  router.refresh();
+                try {
+                  const result = await registerUser(formData);
+                  if (result.error) {
+                    toast.error(result.error);
+                  } else {
+                    toast.success("Account created!");
+                    router.push(callbackUrl === "/account" ? "/account" : callbackUrl);
+                    router.refresh();
+                  }
+                } catch {
+                  toast.error("Something went wrong. Please try again.");
                 }
               });
             }}
@@ -201,9 +242,14 @@ export default function AuthForm() {
                 autoComplete="new-password"
               />
             </div>
-            <Button type="submit" disabled={pending} className="w-full">
+            <Button type="submit" disabled={pending || !dbAvailable} className="w-full">
               {pending ? "Creating..." : "Create Account"}
             </Button>
+            {!dbAvailable && (
+              <p className="text-center text-xs text-amber-700">
+                Registration is disabled while accounts are offline.
+              </p>
+            )}
             <p className="text-sm text-stone-600">{PAGE_COPY.account.registerNote}</p>
             <p className="text-center text-sm text-stone-600">
               Already have an account?{" "}

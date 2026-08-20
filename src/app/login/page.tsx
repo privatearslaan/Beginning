@@ -1,10 +1,13 @@
 import { Suspense } from "react";
+import { getAuthAvailability } from "@/actions/auth";
 import LoginForm from "./LoginForm";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const { dbAvailable } = await getAuthAvailability();
+
   return (
     <Suspense fallback={<div className="p-16 text-center">Loading...</div>}>
-      <LoginForm />
+      <LoginForm dbAvailable={dbAvailable} />
     </Suspense>
   );
 }

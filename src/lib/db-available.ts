@@ -17,6 +17,14 @@ export async function isDbAvailable(force = false) {
     dbAvailable = false;
   }
 
+  if (dbAvailable) {
+    try {
+      await db.user.findFirst({ select: { id: true } });
+    } catch {
+      dbAvailable = false;
+    }
+  }
+
   lastCheckedAt = now;
   return dbAvailable;
 }

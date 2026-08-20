@@ -43,7 +43,8 @@ export function BookServiceForm({
   const [email, setEmail] = useState(defaultContact?.email ?? "");
   const [pending, startTransition] = useTransition();
 
-  const needsContactFields = whatsappMode;
+  const needsContactFields = whatsappMode || !defaultContact;
+  const needsPhone = true;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
@@ -93,13 +94,11 @@ export function BookServiceForm({
                   service.id,
                   selectedSlot,
                   notes,
-                  needsContactFields
-                    ? {
-                        name,
-                        phone,
-                        email: email || undefined,
-                      }
-                    : undefined,
+                  {
+                    name: name || defaultContact?.name || "",
+                    phone,
+                    email: email || defaultContact?.email || undefined,
+                  },
                 );
 
                 if (result?.error) {
@@ -162,6 +161,20 @@ export function BookServiceForm({
                   placeholder="you@example.com"
                 />
               </div>
+            </div>
+          )}
+
+          {needsPhone && !needsContactFields && (
+            <div>
+              <Label htmlFor="booking-phone">Phone for confirmation</Label>
+              <Input
+                id="booking-phone"
+                type="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                placeholder="10-digit mobile"
+                required
+              />
             </div>
           )}
 

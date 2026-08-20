@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getServiceById } from "@/lib/product-catalog";
 import {
@@ -29,14 +29,11 @@ export default async function BookServicePage({ params }: BookPageProps) {
     requiresWhatsAppBooking(id),
   ]);
 
-  if (!session?.user && !whatsappMode) {
-    redirect(`/login?callbackUrl=/services/${id}/book`);
-  }
-
   const service = await getServiceById(id);
   if (!service || !service.active) notFound();
 
   const availableSlots = await getAvailableSlots(id);
+  const needsContact = whatsappMode || !session?.user;
 
   return (
     <BookServiceForm
@@ -46,7 +43,7 @@ export default async function BookServicePage({ params }: BookPageProps) {
       }}
       availableSlots={availableSlots}
       guestMode={guestMode}
-      whatsappMode={whatsappMode}
+      whatsappMode={needsContact}
       defaultContact={
         session?.user
           ? {

@@ -138,7 +138,8 @@ export async function isGuestBookingMode() {
 }
 
 export async function requiresWhatsAppBooking(serviceId: string) {
-  return (await isGuestBookingMode()) || isFallbackServiceId(serviceId);
+  if (isFallbackServiceId(serviceId)) return true;
+  return !(await isDbAvailable());
 }
 
 export async function getAvailableSlots(serviceId: string) {
@@ -257,7 +258,39 @@ export async function bookAppointment(
     });
   } catch (error) {
     console.error("Failed to create appointment:", error);
-    return { error: "Unable to book this appointment. Please try again." };
+
+    const bookingContact: BookingContact = {
+      name: contact?.name?.trim() || session?.user?.name || "",
+      phone: contact?.phone?.trim() || "",
+      email: contact?.email?.trim() || session?.user?.email || undefined,
+    };
+
+    if (bookingContact.name && bookingContact.phone) {
+      const message = buildGuestBookingMessage(
+        {
+          name: service.name,
+          durationMin: service.durationMin,
+          price: service.price,
+        },
+        slot,
+        {
+          name: bookingContact.name,
+          phone: bookingContact.phone,
+          email: bookingContact.email,
+        },
+        notes?.trim() || undefined,
+      );
+      const whatsappUrl = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
+      return {
+        success: true,
+        redirectUrl: `/services/booking/success?whatsapp=${encodeURIComponent(whatsappUrl)}`,
+      };
+    }
+
+    return {
+      error:
+        "Online booking is temporarily unavailable. Please add your phone number and try again, or contact us on WhatsApp.",
+    };
   }
 
   revalidatePath("/account/appointments");
