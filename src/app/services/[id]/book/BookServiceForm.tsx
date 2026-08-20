@@ -22,6 +22,7 @@ interface BookServicePageProps {
   };
   availableSlots: string[];
   guestMode?: boolean;
+  whatsappMode?: boolean;
   defaultContact?: {
     name: string;
     email?: string | null;
@@ -32,6 +33,7 @@ export function BookServiceForm({
   service,
   availableSlots,
   guestMode = false,
+  whatsappMode = false,
   defaultContact,
 }: BookServicePageProps) {
   const router = useRouter();
@@ -41,7 +43,7 @@ export function BookServiceForm({
   const [email, setEmail] = useState(defaultContact?.email ?? "");
   const [pending, startTransition] = useTransition();
 
-  const needsContactFields = guestMode;
+  const needsContactFields = whatsappMode;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
@@ -59,10 +61,11 @@ export function BookServiceForm({
         {formatPrice(service.price.toString())} · {service.durationMin} min
       </p>
 
-      {guestMode && (
+      {whatsappMode && (
         <p className="mb-8 rounded-xl border border-orange-brand/20 bg-orange-brand/8 px-4 py-3 text-sm text-stone-700">
-          Online booking will send your request to our team on WhatsApp for
-          confirmation. No account needed.
+          {guestMode
+            ? "Online booking will send your request to our team on WhatsApp for confirmation. No account needed."
+            : "Select a slot and send your booking request on WhatsApp. Our team will confirm your appointment."}
         </p>
       )}
 
@@ -82,26 +85,39 @@ export function BookServiceForm({
               return;
             }
             startTransition(async () => {
-              const notes = (
-                document.getElementById("notes") as HTMLTextAreaElement
-              )?.value;
-              const result = await bookAppointment(
-                service.id,
-                selectedSlot,
-                notes,
-                needsContactFields
-                  ? {
-                      name,
-                      phone,
-                      email: email || undefined,
-                    }
-                  : undefined,
-              );
-              if (result?.error) {
-                toast.error(result.error);
-              } else if (result?.success) {
-                toast.success("Appointment booked!");
-                router.push("/account/appointments");
+              try {
+                const notes = (
+                  document.getElementById("notes") as HTMLTextAreaElement
+                )?.value;
+                const result = await bookAppointment(
+                  service.id,
+                  selectedSlot,
+                  notes,
+                  needsContactFields
+                    ? {
+                        name,
+                        phone,
+                        email: email || undefined,
+                      }
+                    : undefined,
+                );
+
+                if (result?.error) {
+                  toast.error(result.error);
+                  return;
+                }
+
+                if (result?.redirectUrl) {
+                  router.push(result.redirectUrl);
+                  return;
+                }
+
+                if (result?.success) {
+                  toast.success("Appointment booked!");
+                  router.push("/account/appointments");
+                }
+              } catch {
+                toast.error("Something went wrong. Please try again.");
               }
             });
           }}
@@ -156,7 +172,7 @@ export function BookServiceForm({
           <Button type="submit" disabled={pending || !selectedSlot} className="w-full">
             {pending
               ? "Booking..."
-              : guestMode
+              : whatsappMode
                 ? "Send Booking on WhatsApp"
                 : "Confirm Booking"}
           </Button>

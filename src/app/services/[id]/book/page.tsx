@@ -5,6 +5,7 @@ import { getServiceById } from "@/lib/product-catalog";
 import {
   getAvailableSlots,
   isGuestBookingMode,
+  requiresWhatsAppBooking,
 } from "@/actions/booking";
 import { BookServiceForm } from "./BookServiceForm";
 
@@ -22,9 +23,13 @@ export async function generateMetadata({
 
 export default async function BookServicePage({ params }: BookPageProps) {
   const { id } = await params;
-  const [session, guestMode] = await Promise.all([auth(), isGuestBookingMode()]);
+  const [session, guestMode, whatsappMode] = await Promise.all([
+    auth(),
+    isGuestBookingMode(),
+    requiresWhatsAppBooking(id),
+  ]);
 
-  if (!session?.user && !guestMode) {
+  if (!session?.user && !whatsappMode) {
     redirect(`/login?callbackUrl=/services/${id}/book`);
   }
 
@@ -41,6 +46,7 @@ export default async function BookServicePage({ params }: BookPageProps) {
       }}
       availableSlots={availableSlots}
       guestMode={guestMode}
+      whatsappMode={whatsappMode}
       defaultContact={
         session?.user
           ? {

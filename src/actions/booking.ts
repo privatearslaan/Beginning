@@ -10,7 +10,6 @@ import {
   getDay,
   isValid,
 } from "date-fns";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { isDbAvailable } from "@/lib/db-available";
 import { db } from "@/lib/db";
@@ -138,6 +137,10 @@ export async function isGuestBookingMode() {
   return !(await isDbAvailable());
 }
 
+export async function requiresWhatsAppBooking(serviceId: string) {
+  return (await isGuestBookingMode()) || isFallbackServiceId(serviceId);
+}
+
 export async function getAvailableSlots(serviceId: string) {
   const service = await getServiceById(serviceId);
   if (!service || !service.active) return [];
@@ -170,7 +173,6 @@ export async function bookAppointment(
   contact?: BookingContact,
 ) {
   const session = await auth();
-  const guestMode = await isGuestBookingMode();
   const service = await getServiceById(serviceId);
 
   if (!service || !service.active) {
@@ -183,12 +185,12 @@ export async function bookAppointment(
   }
 
   const availableSlots = await getAvailableSlots(serviceId);
-  if (!availableSlots.includes(slot.toISOString())) {
+  if (!availableSlots.includes(dateTime)) {
     return { error: "This time slot is no longer available" };
   }
 
   const useWhatsAppBooking =
-    guestMode || isFallbackServiceId(serviceId) || !session?.user;
+    (await requiresWhatsAppBooking(serviceId)) || !session?.user;
 
   if (useWhatsAppBooking) {
     const bookingContact: BookingContact = {
@@ -219,9 +221,10 @@ export async function bookAppointment(
       notes?.trim() || undefined,
     );
     const whatsappUrl = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
-    redirect(
-      `/services/booking/success?whatsapp=${encodeURIComponent(whatsappUrl)}`,
-    );
+    return {
+      success: true,
+      redirectUrl: `/services/booking/success?whatsapp=${encodeURIComponent(whatsappUrl)}`,
+    };
   }
 
   if (!(await isDbAvailable())) {
