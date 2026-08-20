@@ -201,25 +201,33 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
 
 export async function listActiveServices() {
   try {
-    return await db.service.findMany({
+    const services = await db.service.findMany({
       where: { active: true },
       orderBy: { name: "asc" },
     });
+    if (services.length > 0) return services;
   } catch (error) {
     console.error("Database unavailable, using fallback services:", error);
-    return [...FALLBACK_SERVICES];
   }
+
+  return [...FALLBACK_SERVICES];
 }
 
 export async function getServiceById(id: string) {
   try {
-    return await db.service.findUnique({ where: { id } });
+    const service = await db.service.findUnique({ where: { id } });
+    if (service) return service;
   } catch (error) {
     console.error("Database unavailable, using fallback service lookup:", error);
-    return FALLBACK_SERVICES.find((service) => service.id === id) ?? null;
   }
+
+  return FALLBACK_SERVICES.find((service) => service.id === id) ?? null;
 }
 
 export function isFallbackProductId(id: string) {
+  return id.startsWith("fallback-");
+}
+
+export function isFallbackServiceId(id: string) {
   return id.startsWith("fallback-");
 }

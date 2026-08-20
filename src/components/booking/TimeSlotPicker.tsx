@@ -22,8 +22,8 @@ export function TimeSlotPicker({
 
   const dates = Array.from({ length: 14 }, (_, i) => addDays(new Date(), i));
 
-  const slotsForDate = availableSlots.filter((slot) =>
-    slot.startsWith(selectedDate),
+  const slotsForDate = availableSlots.filter(
+    (slot) => format(new Date(slot), "yyyy-MM-dd") === selectedDate,
   );
 
   return (

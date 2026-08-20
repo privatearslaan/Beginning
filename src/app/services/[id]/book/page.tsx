@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getServiceById } from "@/lib/product-catalog";
-import { getAvailableSlots } from "@/actions/booking";
+import {
+  getAvailableSlots,
+  isGuestBookingMode,
+} from "@/actions/booking";
 import { BookServiceForm } from "./BookServiceForm";
 
 interface BookPageProps {
@@ -18,10 +21,13 @@ export async function generateMetadata({
 }
 
 export default async function BookServicePage({ params }: BookPageProps) {
-  const session = await auth();
-  if (!session?.user) redirect(`/login?callbackUrl=/services/${(await params).id}/book`);
-
   const { id } = await params;
+  const [session, guestMode] = await Promise.all([auth(), isGuestBookingMode()]);
+
+  if (!session?.user && !guestMode) {
+    redirect(`/login?callbackUrl=/services/${id}/book`);
+  }
+
   const service = await getServiceById(id);
   if (!service || !service.active) notFound();
 
@@ -34,6 +40,15 @@ export default async function BookServicePage({ params }: BookPageProps) {
         price: service.price.toString(),
       }}
       availableSlots={availableSlots}
+      guestMode={guestMode}
+      defaultContact={
+        session?.user
+          ? {
+              name: session.user.name,
+              email: session.user.email,
+            }
+          : undefined
+      }
     />
   );
 }

@@ -50,9 +50,16 @@ export function AppointmentsList({ appointments }: AppointmentsPageProps) {
               disabled={pending}
               onClick={() => {
                 startTransition(async () => {
-                  const result = await updateAppointmentStatus(appt.id, "CANCELLED");
-                  if (result.error) toast.error(result.error);
-                  else toast.success("Appointment cancelled");
+                  try {
+                    const result = await updateAppointmentStatus(
+                      appt.id,
+                      "CANCELLED",
+                    );
+                    if (result.error) toast.error(result.error);
+                    else toast.success("Appointment cancelled");
+                  } catch {
+                    toast.error("Something went wrong. Please try again.");
+                  }
                 });
               }}
             >
