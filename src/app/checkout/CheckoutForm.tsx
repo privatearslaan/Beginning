@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { PhoneInput } from "@/components/ui/PhoneInput";
 import { StateSearchSelect } from "@/components/checkout/StateSearchSelect";
-import { placeOrder } from "@/actions/checkout";
+import { placeGuestOrder, placeOrder } from "@/actions/checkout";
 import {
   buildCheckoutFormData,
   parseCheckoutForm,
@@ -20,6 +20,7 @@ import { formatPrice, paymentMethodLabel } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface CheckoutFormProps {
+  guestMode?: boolean;
   defaultName: string;
   defaultEmail: string;
   items: Array<{
@@ -62,6 +63,7 @@ function OrderSummaryPanel({
 }
 
 export function CheckoutForm({
+  guestMode = false,
   defaultName,
   defaultEmail,
   items,
@@ -178,9 +180,15 @@ export function CheckoutForm({
             />
           </div>
 
-          <p className="text-sm text-stone-500">
-            Order updates will be sent to {defaultEmail}
-          </p>
+          {!guestMode && defaultEmail ? (
+            <p className="text-sm text-stone-500">
+              Order updates will be sent to {defaultEmail}
+            </p>
+          ) : (
+            <p className="text-sm text-stone-500">
+              We will confirm your order on WhatsApp after you submit.
+            </p>
+          )}
 
           <Button
             type="button"
@@ -245,9 +253,15 @@ export function CheckoutForm({
               {formatPrice(total)} due on delivery
             </div>
 
-            <p className="text-sm text-stone-500">
-              Confirmation will be sent to {defaultEmail}
-            </p>
+            {!guestMode && defaultEmail ? (
+              <p className="text-sm text-stone-500">
+                Confirmation will be sent to {defaultEmail}
+              </p>
+            ) : (
+              <p className="text-sm text-stone-500">
+                Your order will open in WhatsApp for quick confirmation with our team.
+              </p>
+            )}
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
@@ -266,7 +280,8 @@ export function CheckoutForm({
                 onClick={() => {
                   if (!preview) return;
                   startTransition(async () => {
-                    const result = await placeOrder(buildCheckoutFormData(preview));
+                    const submit = guestMode ? placeGuestOrder : placeOrder;
+                    const result = await submit(buildCheckoutFormData(preview));
                     if (result?.error) toast.error(result.error);
                   });
                 }}

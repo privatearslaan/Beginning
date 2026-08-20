@@ -1,8 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
-  <rect width="400" height="400" fill="#ECFDF5"/>
-  <circle cx="200" cy="160" r="60" fill="#059669" opacity="0.3"/>
-  <circle cx="170" cy="150" r="8" fill="#065F46"/>
-  <circle cx="230" cy="150" r="8" fill="#065F46"/>
-  <path d="M175 180 Q200 200 225 180" stroke="#065F46" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <text x="200" y="280" text-anchor="middle" fill="#065F46" font-family="system-ui,sans-serif" font-size="18">Pet Product</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="400" y2="400">
+      <stop stop-color="#fff8ef"/>
+      <stop offset="1" stop-color="#ffe4c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <circle cx="200" cy="155" r="72" fill="#ff5a00" opacity="0.12"/>
+  <path d="M145 210c12 28 38 42 55 42s43-14 55-42" stroke="#ff5a00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="168" cy="150" r="10" fill="#252220"/>
+  <circle cx="232" cy="150" r="10" fill="#252220"/>
+  <path d="M120 120c18-28 48-42 80-42s62 14 80 42" stroke="#d6e51c" stroke-width="8" stroke-linecap="round"/>
+  <text x="200" y="300" text-anchor="middle" fill="#746a63" font-family="system-ui,sans-serif" font-size="16" font-weight="700">The Happy Tails</text>
+  <text x="200" y="325" text-anchor="middle" fill="#ff5a00" font-family="system-ui,sans-serif" font-size="13">Product image</text>
 </svg>

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import { getCartItems } from "@/actions/cart";
+import { getCartItems, isGuestCheckoutMode } from "@/actions/cart";
 import { Button } from "@/components/ui/button";
 import { CheckoutForm } from "./CheckoutForm";
 
@@ -11,10 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default async function CheckoutPage() {
-  const session = await auth();
-  if (!session?.user) redirect("/login?callbackUrl=/checkout");
+  const [items, guestMode] = await Promise.all([
+    getCartItems(),
+    isGuestCheckoutMode(),
+  ]);
 
-  const items = await getCartItems();
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-lg px-4 py-16 text-center">
@@ -37,12 +36,15 @@ export default async function CheckoutPage() {
         Checkout
       </h1>
       <p className="mb-8 text-stone-600">
-        Enter your delivery details to complete your order
+        {guestMode
+          ? "Enter your delivery details. We will confirm your COD order on WhatsApp."
+          : "Enter your delivery details to complete your order"}
       </p>
 
       <CheckoutForm
-        defaultName={session.user.name ?? ""}
-        defaultEmail={session.user.email ?? ""}
+        guestMode={guestMode}
+        defaultName=""
+        defaultEmail=""
         items={items}
         total={total}
       />

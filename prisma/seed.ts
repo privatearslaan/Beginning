@@ -1,6 +1,33 @@
+import "dotenv/config";
 import bcrypt from "bcryptjs";
+import { readFileSync, existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { INDIAN_PET_PRODUCTS } from "./products-data";
+
+type SeedProduct = {
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  stock: number;
+  category: "FOOD" | "TOYS" | "ACCESSORIES" | "HEALTH" | "GROOMING";
+  petType: "DOG" | "CAT" | "BIRD" | "FISH" | "SMALL_PET" | "ALL";
+  images: string[];
+  featured: boolean;
+};
+
+function loadProducts(): SeedProduct[] {
+  const happyTailsPath = resolve(process.cwd(), "prisma/happytails-products.json");
+  if (existsSync(happyTailsPath)) {
+    const raw = JSON.parse(readFileSync(happyTailsPath, "utf8")) as Array<
+      SeedProduct & { variants?: unknown }
+    >;
+    return raw.map(({ variants: _variants, ...product }) => product);
+  }
+  return INDIAN_PET_PRODUCTS;
+}
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -36,85 +63,32 @@ async function main() {
     },
   });
 
-  const products = [
-    {
-      name: "Premium Dog Food",
-      slug: "premium-dog-food",
-      description:
-        "High-quality dry dog food with real chicken, vitamins, and minerals for adult dogs.",
-      price: 1299,
-      stock: 50,
-      category: "FOOD" as const,
-      petType: "DOG" as const,
-      images: ["/placeholder-product.svg"],
-      featured: true,
-    },
-    {
-      name: "Cat Scratching Post",
-      slug: "cat-scratching-post",
-      description:
-        "Durable sisal scratching post with a cozy perch on top for your feline friend.",
-      price: 899,
-      stock: 30,
-      category: "TOYS" as const,
-      petType: "CAT" as const,
-      images: ["/placeholder-product.svg"],
-      featured: true,
-    },
-    {
-      name: "Bird Seed Mix",
-      slug: "bird-seed-mix",
-      description:
-        "Nutritious blend of seeds for parakeets, canaries, and other small birds.",
-      price: 349,
-      stock: 100,
-      category: "FOOD" as const,
-      petType: "BIRD" as const,
-      images: ["/placeholder-product.svg"],
-      featured: true,
-    },
-    {
-      name: "Aquarium Starter Kit",
-      slug: "aquarium-starter-kit",
-      description:
-        "Complete 10-gallon aquarium kit with filter, heater, and LED lighting.",
-      price: 2499,
-      stock: 15,
-      category: "ACCESSORIES" as const,
-      petType: "FISH" as const,
-      images: ["/placeholder-product.svg"],
-      featured: true,
-    },
-    {
-      name: "Rope Chew Toy",
-      slug: "rope-chew-toy",
-      description:
-        "Durable cotton rope toy for dogs of all sizes. Great for dental health.",
-      price: 299,
-      stock: 80,
-      category: "TOYS" as const,
-      petType: "DOG" as const,
-      images: ["/placeholder-product.svg"],
-      featured: false,
-    },
-    {
-      name: "Flea & Tick Shampoo",
-      slug: "flea-tick-shampoo",
-      description:
-        "Gentle medicated shampoo that kills fleas and ticks on contact.",
-      price: 449,
-      stock: 40,
-      category: "HEALTH" as const,
-      petType: "ALL" as const,
-      images: ["/placeholder-product.svg"],
-      featured: false,
-    },
-  ];
+  const products = loadProducts();
+  const happyTailsPath = resolve(process.cwd(), "prisma/happytails-products.json");
+
+  if (existsSync(happyTailsPath)) {
+    await db.product.deleteMany({
+      where: {
+        slug: { notIn: products.map((product) => product.slug) },
+        orderItems: { none: {} },
+        cartItems: { none: {} },
+      },
+    });
+  }
 
   for (const product of products) {
     await db.product.upsert({
       where: { slug: product.slug },
-      update: product,
+      update: {
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        category: product.category,
+        petType: product.petType,
+        images: product.images,
+        featured: product.featured,
+      },
       create: product,
     });
   }
@@ -155,7 +129,7 @@ async function main() {
     }
   }
 
-  console.log("Seed complete!");
+  console.log(`Seed complete! ${products.length} products loaded.`);
   console.log("Admin: admin@pawfectpets.com / admin123");
   console.log("Customer: customer@example.com / customer123");
 }

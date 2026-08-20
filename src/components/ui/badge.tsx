@@ -8,10 +8,10 @@ const Badge = React.forwardRef<
   <span
     ref={ref}
     className={cn(
-      "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-      variant === "default" && "bg-emerald-100 text-emerald-800",
-      variant === "secondary" && "bg-orange-100 text-orange-800",
-      variant === "outline" && "border border-emerald-200 text-emerald-700",
+      "inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide",
+      variant === "default" && "bg-[#4e7c59]/15 text-[#4e7c59]",
+      variant === "secondary" && "bg-orange-brand/10 text-orange-brand",
+      variant === "outline" && "border border-line text-muted",
       className,
     )}
     {...props}

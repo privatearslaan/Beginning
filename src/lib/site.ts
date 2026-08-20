@@ -16,6 +16,8 @@ export const SITE = {
   whatsappProducts: "Hi Happy Tails, I need help with pet products.",
   whatsappServices: "Hi Happy Tails, I want to know more about your services.",
   instagram: "https://www.instagram.com/thehappytails0",
+  logo: "https://thehappytails.co.in/assets/images/logo-black.png",
+  logoLight: "https://thehappytails.co.in/assets/images/logo.png",
   developer: { name: "SuperDevs", url: "https://superdevs.co.in/" },
   address: {
     line: "Nai Basti, Anantnag, Jammu & Kashmir 192101",
@@ -80,37 +82,44 @@ export const SHOP_CATEGORIES = [
   {
     label: "Dog Food",
     href: "/shop?category=FOOD&petType=DOG",
-    image: "https://thehappytails.co.in/assets/img/index/dog%20category.avif",
+    image:
+      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Cat Food",
     href: "/shop?category=FOOD&petType=CAT",
-    image: "https://thehappytails.co.in/assets/img/index/cat%20category.avif",
+    image:
+      "https://images.unsplash.com/photo-1514888286974-6ca0282a6089?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Treats",
     href: "/shop?category=FOOD",
-    image: "https://thehappytails.co.in/assets/img/index/playfulkittens.jpg",
+    image:
+      "https://images.unsplash.com/photo-1583511655857-d19b40a7a548?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Toys",
     href: "/shop?category=TOYS",
-    image: "https://thehappytails.co.in/assets/img/index/toys.avif",
+    image:
+      "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Accessories",
     href: "/shop?category=ACCESSORIES",
-    image: "https://thehappytails.co.in/assets/img/index/everything.jpg",
+    image:
+      "https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Grooming",
     href: "/services",
-    image: "https://thehappytails.co.in/assets/img/index/grooming.jpg",
+    image:
+      "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=80",
   },
   {
     label: "Health & Wellness",
     href: "/shop?category=HEALTH",
-    image: "https://thehappytails.co.in/assets/img/index/signature.jpg",
+    image:
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80",
   },
 ] as const;
 
@@ -263,21 +272,21 @@ export const REVIEWS = [
     author: "Happy Tails Customer",
     quote: "Grooming team handled my pet gently.",
     image:
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=400&q=80",
   },
   {
     author: "Priya Sharma",
     quote:
       "Great quality products and super fast delivery. My dog loves the food.",
     image:
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=400&q=80",
   },
   {
     author: "Rohit Mehta",
     quote:
       "Booked grooming for my cat. Very professional and hassle-free experience.",
     image:
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=400&q=80",
   },
 ] as const;
 
@@ -289,7 +298,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Learn how regular grooming helps keep your cat's coat healthy, reduces shedding, and prevents common skin problems.",
     image:
-      "https://thehappytails.co.in/assets/img/blog/blog-complete-cat-grooming-guide-for-healthy-skin-and-fur.jpg",
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=1200&q=80",
   },
   {
     slug: "essential-puppy-care-guide",
@@ -298,7 +307,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Bringing home a new puppy is exciting. Learn the essential care tips every first-time pet parent should know to keep their puppy healthy and happy.",
     image:
-      "https://thehappytails.co.in/assets/img/blog/blog-essential-puppy-care-guide-for-first-time-pet-parents.jpg",
+      "https://images.unsplash.com/photo-1583511655857-d19b40a7a548?auto=format&fit=crop&w=1200&q=80",
   },
   {
     slug: "when-does-your-pet-need-grooming",
@@ -324,7 +333,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Discover why The Happy Tails has become a trusted destination for pet parents in Anantnag, offering premium pet products, professional grooming, home grooming services, and expert pet care guidance.",
     image:
-      "https://thehappytails.co.in/assets/img/blog/blog-why-pet-owners-in-anantnag-trust-the-happy-tails-for-their-pets.jpg",
+      "https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=1200&q=80",
   },
   {
     slug: "cat-nutrition-guide",
@@ -333,7 +342,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Discover the essentials of feline nutrition and learn how to choose the best food for your cat's health and wellbeing.",
     image:
-      "https://thehappytails.co.in/assets/img/blog/blog-what-should-you-feed-your-cat-a-complete-nutrition-guide.jpg",
+      "https://images.unsplash.com/photo-1514888286974-6ca0282a6089?auto=format&fit=crop&w=1200&q=80",
   },
 ] as const;
 

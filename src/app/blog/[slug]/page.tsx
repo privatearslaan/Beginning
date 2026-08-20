@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { BlogImage } from "@/components/blog/BlogImage";
 import { BLOG_POSTS, SITE } from "@/lib/site";
 
 interface BlogPostPageProps {
@@ -36,10 +36,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <article>
       <div className="relative h-56 sm:h-72 lg:h-96">
-        <Image
+        <BlogImage
           src={post.image}
-          alt=""
-          fill
+          alt={post.title}
           priority
           className="object-cover"
           sizes="100vw"

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { PageHero } from "@/components/layout/PageHero";
-import { BLOG_POSTS, PAGE_COPY, SITE } from "@/lib/site";
+import { BlogImage } from "@/components/blog/BlogImage";
+import { BLOG_POSTS, PAGE_COPY } from "@/lib/site";
+import { PAGE_HERO_PHOTOS } from "@/lib/pet-photos";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -16,6 +17,7 @@ export default function BlogPage() {
         eyebrow={PAGE_COPY.blog.eyebrow}
         title={PAGE_COPY.blog.title}
         description={PAGE_COPY.blog.description}
+        photos={PAGE_HERO_PHOTOS.blog}
       />
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -27,10 +29,9 @@ export default function BlogPage() {
             >
               <Link href={`/blog/${post.slug}`}>
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
+                  <BlogImage
                     src={post.image}
                     alt={post.title}
-                    fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 400px"
                   />

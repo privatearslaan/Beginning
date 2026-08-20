@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, ShoppingCart, Heart, X } from "lucide-react";
@@ -37,19 +38,18 @@ export function Header({ cartCount, user }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-orange-100 bg-cream/95 backdrop-blur supports-[padding:max(0px)]:pt-[env(safe-area-inset-top)]">
+    <header className="sticky top-0 z-50 border-b border-line/70 glass-panel supports-[padding:max(0px)]:pt-[env(safe-area-inset-top)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between gap-3 sm:h-16">
-          <Link
-            href="/"
-            className="flex min-w-0 shrink-0 flex-col leading-none"
-          >
-            <span className="truncate text-lg font-bold text-stone-900 sm:text-xl">
-              {SITE.name}
-            </span>
-            <span className="hidden text-[10px] text-stone-500 sm:block">
-              Anantnag, J&K
-            </span>
+        <div className="flex h-16 items-center justify-between gap-3 sm:h-[4.5rem]">
+          <Link href="/" className="flex shrink-0 items-center">
+            <Image
+              src={SITE.logo}
+              alt={SITE.name}
+              width={180}
+              height={58}
+              className="h-10 w-auto sm:h-12"
+              priority
+            />
           </Link>
 
           <ProductSearchBar className="hidden max-w-md flex-1 lg:block" />
@@ -59,7 +59,7 @@ export function Header({ cartCount, user }: HeaderProps) {
               <Button variant="ghost" size="icon" aria-label="Wishlist">
                 <Heart className="h-5 w-5" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-brand px-1 text-[10px] font-bold text-white">
                     {wishlistCount > 99 ? "99+" : wishlistCount}
                   </span>
                 )}
@@ -70,7 +70,7 @@ export function Header({ cartCount, user }: HeaderProps) {
               <Button variant="ghost" size="icon" aria-label="Cart">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-brand px-1 text-[10px] font-bold text-white">
                     {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
@@ -113,38 +113,26 @@ export function Header({ cartCount, user }: HeaderProps) {
           </div>
         </div>
 
-        <nav className="hidden items-center gap-1 overflow-x-auto border-t border-orange-100 py-2 lg:flex">
+        <nav className="hidden items-center justify-center gap-1 overflow-x-auto border-t border-line/60 py-2 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-orange-50 hover:text-orange-700",
+                "whitespace-nowrap rounded-xl px-4 py-2 text-xs font-black uppercase tracking-wide transition-all",
                 isActive(link.href)
-                  ? "bg-orange-50 text-orange-700"
-                  : "text-stone-600",
+                  ? "bg-orange-brand text-white shadow-md shadow-orange-brand/25"
+                  : "text-ink hover:bg-orange-50 hover:text-orange-brand",
               )}
             >
               {link.label}
               {"badge" in link && link.badge && (
-                <span className="ml-1.5 rounded-full bg-orange-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                <span className="ml-1.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
                   {link.badge}
                 </span>
               )}
             </Link>
           ))}
-          <Link
-            href="/track-order"
-            className="ml-auto whitespace-nowrap text-sm font-medium text-stone-500 hover:text-orange-700"
-          >
-            Track Order
-          </Link>
-          <Link
-            href="/help"
-            className="whitespace-nowrap text-sm font-medium text-stone-500 hover:text-orange-700"
-          >
-            Help
-          </Link>
         </nav>
       </div>
 
@@ -152,12 +140,12 @@ export function Header({ cartCount, user }: HeaderProps) {
         <>
           <button
             type="button"
-            className="fixed inset-0 top-14 z-40 bg-black/30 lg:hidden sm:top-16"
+            className="fixed inset-0 top-16 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
             aria-label="Close menu"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="fixed left-0 right-0 top-14 z-50 max-h-[calc(100dvh-3.5rem)] overflow-y-auto border-t border-orange-100 bg-white shadow-lg lg:hidden sm:top-16 sm:max-h-[calc(100dvh-4rem)]">
-            <div className="border-b border-orange-100 p-4">
+          <div className="fixed left-0 right-0 top-16 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line glass-panel lg:hidden">
+            <div className="border-b border-line/60 p-4">
               <ProductSearchBar />
             </div>
             <nav className="flex flex-col px-4 py-3">
@@ -167,10 +155,10 @@ export function Header({ cartCount, user }: HeaderProps) {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "rounded-lg px-3 py-3.5 text-base font-medium transition-colors active:bg-orange-50",
+                    "rounded-xl px-3 py-3.5 text-base font-bold transition-colors",
                     isActive(link.href)
-                      ? "bg-orange-50 text-orange-800"
-                      : "text-stone-700",
+                      ? "bg-orange-50 text-orange-brand"
+                      : "text-ink active:bg-orange-50",
                   )}
                 >
                   {link.label}
@@ -185,18 +173,18 @@ export function Header({ cartCount, user }: HeaderProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-3.5 text-base font-medium text-stone-700 active:bg-orange-50"
+                  className="rounded-xl px-3 py-3.5 text-base font-bold text-ink active:bg-orange-50"
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="my-2 border-t border-orange-100" />
+              <div className="my-2 border-t border-line/60" />
               {user ? (
                 <>
                   <Link
                     href="/account"
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-lg px-3 py-3.5 text-base font-medium text-stone-700 active:bg-orange-50"
+                    className="rounded-xl px-3 py-3.5 text-base font-bold text-ink active:bg-orange-50"
                   >
                     My Account
                   </Link>
@@ -204,7 +192,7 @@ export function Header({ cartCount, user }: HeaderProps) {
                     <Link
                       href="/admin"
                       onClick={() => setMobileOpen(false)}
-                      className="rounded-lg px-3 py-3.5 text-base font-medium text-stone-700 active:bg-orange-50"
+                      className="rounded-xl px-3 py-3.5 text-base font-bold text-ink active:bg-orange-50"
                     >
                       Admin Dashboard
                     </Link>

@@ -4,83 +4,89 @@ import { ShopCategoriesGrid, BrandMarquee } from "@/components/home/ShopCategori
 import { PromoBanner } from "@/components/home/PromoBanner";
 import { BestSellersGrid } from "@/components/home/BestSellersGrid";
 import { GroomingHomeSection } from "@/components/home/GroomingHomeSection";
-import Image from "next/image";
+import { InteractivePetGallery } from "@/components/home/InteractivePetGallery";
+import { BlogImage } from "@/components/blog/BlogImage";
+import { PetImage } from "@/components/ui/PetImage";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import Link from "next/link";
 import { BLOG_POSTS, REVIEWS } from "@/lib/site";
+import { getFeaturedProducts } from "@/lib/product-catalog";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const bestSellers = await getFeaturedProducts(8);
   return (
     <>
       <HomeHero />
       <FeatureStrip />
+      <InteractivePetGallery />
       <ShopCategoriesGrid />
       <PromoBanner />
-      <BestSellersGrid />
+      <BestSellersGrid products={bestSellers} />
       <GroomingHomeSection />
       <BrandMarquee />
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="text-2xl font-bold text-stone-900 sm:text-3xl">
-            What Pet Parents Say
-          </h2>
-          <Link href="/contact" className="text-sm font-medium text-orange-600 hover:underline">
-            View All Reviews →
-          </Link>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {REVIEWS.map((review) => (
-            <blockquote
-              key={review.author}
-              className="flex gap-4 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm"
-            >
-              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
-                <Image src={review.image} alt="" fill className="object-cover" sizes="64px" />
-              </div>
-              <div>
-                <strong className="block text-stone-900">{review.author}</strong>
-                <span className="text-sm text-amber-500">★★★★★</span>
-                <p className="mt-2 text-sm text-stone-600">&ldquo;{review.quote}&rdquo;</p>
-              </div>
-            </blockquote>
-          ))}
+      <section className="mesh-bg py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            eyebrow="Reviews"
+            title="What Pet Parents Say"
+            href="/contact"
+            linkLabel="View All Reviews →"
+            delay={100}
+          />
+          <div className="grid gap-6 md:grid-cols-3">
+            {REVIEWS.map((review) => (
+              <blockquote
+                key={review.author}
+                className="flex gap-4 rounded-[1.5rem] border border-line/70 bg-white/90 p-5 shadow-lg shadow-orange-brand/5 backdrop-blur transition hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-brand/10"
+              >
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl ring-2 ring-orange-brand/20">
+                  <PetImage src={review.image} alt="" className="object-cover" sizes="64px" />
+                </div>
+                <div>
+                  <strong className="block font-black text-ink">{review.author}</strong>
+                  <span className="text-sm text-amber-500">★★★★★</span>
+                  <p className="mt-2 text-sm text-muted">&ldquo;{review.quote}&rdquo;</p>
+                </div>
+              </blockquote>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-orange-100 bg-white py-14">
+      <section className="border-t border-line/70 bg-white py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <h2 className="text-2xl font-bold text-stone-900 sm:text-3xl">
-              Pet Care Blog
-            </h2>
-            <Link href="/blog" className="text-sm font-medium text-orange-600 hover:underline">
-              View All Posts →
-            </Link>
-          </div>
+          <SectionHeader
+            eyebrow="Blog"
+            title="Pet Care Blog"
+            href="/blog"
+            linkLabel="View All Posts →"
+            delay={120}
+          />
           <div className="grid gap-6 md:grid-cols-3">
             {BLOG_POSTS.slice(0, 3).map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group overflow-hidden rounded-[1.5rem] border border-line/70 bg-white shadow-lg shadow-orange-brand/5 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-brand/10"
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
+                  <BlogImage
                     src={post.image}
-                    alt=""
-                    fill
-                    className="object-cover transition duration-300 group-hover:scale-105"
+                    alt={post.title}
+                    className="object-cover transition duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, 400px"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent opacity-60" />
                 </div>
                 <div className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-600">
+                  <p className="text-xs font-black uppercase tracking-wider text-orange-brand">
                     {post.category}
                   </p>
-                  <h3 className="mt-2 font-semibold text-stone-900 group-hover:text-orange-700">
+                  <h3 className="mt-2 font-black text-ink group-hover:text-orange-brand">
                     {post.title}
                   </h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-stone-600">
+                  <p className="mt-2 line-clamp-2 text-sm text-muted">
                     {post.excerpt}
                   </p>
                 </div>

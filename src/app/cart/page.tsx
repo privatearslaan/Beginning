@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getCartItems } from "@/actions/cart";
+import { getCartItems, isGuestCheckoutMode } from "@/actions/cart";
 import { CartItemRow } from "@/components/shop/CartItemRow";
 import { PageHero } from "@/components/layout/PageHero";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default async function CartPage() {
-  const [items, session] = await Promise.all([getCartItems(), auth()]);
+  const [items, session, guestMode] = await Promise.all([
+    getCartItems(),
+    auth(),
+    isGuestCheckoutMode(),
+  ]);
   const total = items.reduce(
     (sum, item) => sum + Number(item.product.price) * item.quantity,
     0,
@@ -68,10 +72,10 @@ export default async function CartPage() {
                   Continue Shopping
                 </Button>
               </Link>
-              {session?.user ? (
+              {session?.user || guestMode ? (
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full" size="lg">
-                    Proceed to Checkout
+                    {guestMode ? "Checkout with COD" : "Proceed to Checkout"}
                   </Button>
                 </Link>
               ) : (

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { ProductImage } from "@/components/shop/ProductImage";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice, categoryLabel, petTypeLabel } from "@/lib/utils";
 import { asStringArray } from "@/lib/product-images";
@@ -25,14 +25,13 @@ export function ProductCard({ product, showWishlist = true }: ProductCardProps) 
   const image = asStringArray(product.images)[0] ?? "/placeholder-product.svg";
 
   return (
-    <Card className="overflow-hidden transition-shadow hover:shadow-md">
-      <div className="relative aspect-square bg-emerald-50">
+    <Card className="group card-hover-glow overflow-hidden border-line/70">
+      <div className="relative aspect-square bg-gradient-to-br from-cream to-peach/40">
         <Link href={`/shop/${product.slug}`} className="block h-full w-full">
-          <Image
+          <ProductImage
             src={image}
             alt={product.name}
-            fill
-            className="object-cover"
+            className="object-contain p-4 transition duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 25vw"
           />
         </Link>
@@ -41,10 +40,11 @@ export function ProductCard({ product, showWishlist = true }: ProductCardProps) 
             <WishlistButton
               productId={product.id}
               productName={product.name}
-              className="rounded-full bg-white/90 shadow-sm hover:bg-white"
+              className="rounded-full glass-panel hover:shadow-md"
             />
           </div>
         )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/90 to-transparent opacity-0 transition group-hover:opacity-100" />
       </div>
       <CardContent className="p-4">
         <div className="mb-2 flex flex-wrap gap-1">
@@ -52,13 +52,13 @@ export function ProductCard({ product, showWishlist = true }: ProductCardProps) 
           <Badge variant="outline">{petTypeLabel(product.petType)}</Badge>
         </div>
         <Link href={`/shop/${product.slug}`}>
-          <h3 className="mb-1 font-semibold text-stone-900 hover:text-emerald-700">
+          <h3 className="mb-2 line-clamp-2 min-h-[2.5rem] text-sm font-bold text-ink transition group-hover:text-orange-brand">
             {product.name}
           </h3>
         </Link>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-lg font-bold text-emerald-700">
-            {formatPrice(product.price.toString())}
+          <span className="text-xl font-black text-orange-brand">
+            {formatPrice(Number(product.price))}
           </span>
           <AddToCartButton
             productId={product.id}

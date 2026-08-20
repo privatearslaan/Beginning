@@ -1,24 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Raleway } from "next/font/google";
 import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { TopStrip } from "@/components/layout/TopStrip";
 import { SupportBot } from "@/components/layout/SupportBot";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { AnimalBackground } from "@/components/background/AnimalBackground";
 import { auth } from "@/lib/auth";
 import { getCartCount } from "@/actions/cart";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const raleway = Raleway({
+  variable: "--font-raleway",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -50,9 +47,11 @@ export default async function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${raleway.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-stone-900 pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-[env(safe-area-inset-bottom)]">
+      <body className="site-shell min-h-full flex flex-col bg-background text-ink pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-[env(safe-area-inset-bottom)]">
+        <AnimalBackground />
+        <div className="site-shell__content relative z-10 flex min-h-full flex-1 flex-col">
         <TopStrip />
         <Header
           cartCount={cartCount}
@@ -67,6 +66,7 @@ export default async function RootLayout({
         <SupportBot />
         <MobileTabBar />
         <Toaster position="top-center" richColors />
+        </div>
       </body>
     </html>
   );

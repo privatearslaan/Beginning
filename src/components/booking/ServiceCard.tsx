@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, DollarSign } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
@@ -30,8 +30,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             <Clock className="h-4 w-4" />
             {service.durationMin} min
           </span>
-          <span className="flex items-center gap-1 font-semibold text-emerald-700">
-            <DollarSign className="h-4 w-4" />
+          <span className="font-semibold text-emerald-700">
             {formatPrice(service.price.toString())}
           </span>
         </div>

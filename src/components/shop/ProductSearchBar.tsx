@@ -37,8 +37,8 @@ export function ProductSearchBar({
       <div
         className={
           isHero
-            ? "flex flex-col gap-2 rounded-xl bg-white/95 p-2 shadow-lg sm:flex-row sm:items-center"
-            : "flex flex-col gap-2 sm:flex-row sm:items-center"
+            ? "flex flex-col gap-2 rounded-2xl border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur-xl sm:flex-row sm:items-center"
+            : "flex flex-col gap-2 rounded-xl border border-line/70 bg-white p-2 sm:flex-row sm:items-center"
         }
       >
         <div className="relative flex-1">
@@ -55,7 +55,7 @@ export function ProductSearchBar({
             placeholder={SITE.searchPlaceholder}
             className={
               isHero
-                ? "h-12 border-0 bg-transparent pl-10 text-base text-stone-900 placeholder:text-stone-400 focus-visible:ring-orange-500"
+                ? "h-12 border-0 bg-transparent pl-10 text-base text-white placeholder:text-white/50 focus-visible:ring-orange-brand"
                 : "pl-9"
             }
             autoComplete="off"
@@ -67,8 +67,8 @@ export function ProductSearchBar({
             aria-label="Category"
             className={
               isHero
-                ? "h-12 rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-700"
-                : "h-10 rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-700"
+                ? "h-12 rounded-xl border border-white/20 bg-white/10 px-3 text-sm text-white"
+                : "h-10 rounded-lg border border-line bg-white px-3 text-sm text-ink"
             }
             defaultValue=""
           >
@@ -85,7 +85,7 @@ export function ProductSearchBar({
           aria-label="Search"
           className={
             isHero
-              ? "h-12 w-full bg-orange-500 hover:bg-orange-600 sm:w-12"
+              ? "h-12 w-full sm:w-12"
               : "h-10 w-full sm:w-10"
           }
         >

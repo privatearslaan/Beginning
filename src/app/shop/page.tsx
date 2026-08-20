@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { db } from "@/lib/db";
+import { listProducts } from "@/lib/product-catalog";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { PetTypeNav } from "@/components/shop/PetTypeNav";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { PET_TYPES } from "@/lib/pets";
 import { petTypeLabel } from "@/lib/utils";
+import { PAGE_HERO_PHOTOS } from "@/lib/pet-photos";
+import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -51,18 +53,10 @@ function groupProductsByPet<T extends { petType: string }>(products: T[]) {
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams;
-  const products = await db.product.findMany({
-    where: {
-      ...(params.q && {
-        OR: [
-          { name: { contains: params.q, mode: "insensitive" } },
-          { description: { contains: params.q, mode: "insensitive" } },
-        ],
-      }),
-      ...(params.category && { category: params.category as never }),
-      ...(params.petType && { petType: params.petType as never }),
-    },
-    orderBy: { name: "asc" },
+  const products = await listProducts({
+    q: params.q,
+    category: params.category,
+    petType: params.petType,
   });
 
   const showGrouped =
@@ -70,19 +64,20 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const groupedProducts = showGrouped ? groupProductsByPet(products) : [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-stone-900">Shop</h1>
-        <p className="mt-2 text-stone-600">
-          Find the perfect products for your pet — browse by animal type below
-        </p>
-      </div>
+    <>
+      <PageHero
+        eyebrow="Shop"
+        title="All Pet Products"
+        description="Find the perfect products for your pet — browse by animal type below"
+        photos={PAGE_HERO_PHOTOS.shop}
+      />
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
       <Suspense fallback={null}>
         <PetTypeNav />
       </Suspense>
 
-      <form className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-4">
+      <form className="mb-8 rounded-2xl border border-line/70 bg-white/80 p-4 shadow-sm backdrop-blur grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-4">
         <Input
           name="q"
           placeholder="Search products..."
@@ -120,23 +115,23 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       </form>
 
       {products.length === 0 ? (
-        <p className="text-center text-stone-500">No products found.</p>
+        <p className="text-center text-muted">No products found.</p>
       ) : showGrouped ? (
         <div className="space-y-12">
           {groupedProducts.map((section) => (
             <section key={section.key} id={section.key.toLowerCase()}>
               <div className="mb-6 flex items-end justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-stone-900">
+                  <h2 className="text-2xl font-black text-ink">
                     {section.title}
                   </h2>
-                  <p className="mt-1 text-sm text-stone-500">
+                  <p className="mt-1 text-sm text-muted">
                     Products for {section.title.toLowerCase()}
                   </p>
                 </div>
                 <Link
                   href={`/shop?petType=${section.key}`}
-                  className="text-sm font-medium text-emerald-700 hover:underline"
+                  className="text-sm font-bold text-orange-brand hover:underline"
                 >
                   View all →
                 </Link>
@@ -156,6 +151,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
