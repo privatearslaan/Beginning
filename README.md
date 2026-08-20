@@ -22,13 +22,39 @@ npm install
 
 ### 2. Database
 
-Local development uses **SQLite** (`prisma/dev.db`) — no Docker required.
+This project uses **PostgreSQL** with Prisma.
 
-For production, switch the Prisma datasource to PostgreSQL and set `DATABASE_URL` to your [Neon](https://neon.tech) connection string.
+**Local development (no Docker):**
+
+```bash
+npm run db:dev          # starts local Prisma Postgres, prints DATABASE_URL
+npm run db:setup        # migrate + seed
+```
+
+Or auto-start and write `.env.local`:
+
+```bash
+npm run db:ensure
+npm run db:setup
+```
+
+**Production (Neon + Vercel):**
+
+1. Accept Neon terms: https://vercel.com/arslaan2/~/integrations/accept-terms/neon
+2. Install integration: `vercel integration add neon`
+3. Copy the Neon `DATABASE_URL` from the Vercel project env
+4. Provision schema + seed:
+
+```bash
+./scripts/update-vercel-database.sh "postgresql://..."
+vercel --prod
+```
+
+The Vercel build runs `prisma migrate deploy` automatically on each deploy.
 
 ### 3. Set up environment
 
-Copy `.env.example` to `.env` and update values as needed. The default `.env` works with local Docker Postgres.
+Copy `.env.example` to `.env.local` and run `npm run db:ensure` to create a local Postgres URL automatically.
 
 ### 4. Run migrations and seed
 

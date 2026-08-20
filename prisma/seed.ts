@@ -1,10 +1,14 @@
-import "dotenv/config";
+import { resolve } from "node:path";
+import { config } from "dotenv";
 import bcrypt from "bcryptjs";
 import { readFileSync, existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { INDIAN_PET_PRODUCTS } from "./products-data";
+
+config({ path: resolve(process.cwd(), ".env.local") });
+config({ path: resolve(process.cwd(), ".env") });
+config({ path: resolve(process.cwd(), ".env.production") });
 
 type SeedProduct = {
   name: string;
